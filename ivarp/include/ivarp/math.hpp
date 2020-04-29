@@ -19,7 +19,7 @@ namespace ivarp {
 #ifndef __CUDA_ARCH__
 		const float dmn = -std::numeric_limits<float>::denorm_min();
 		f = -f;
-		opacify(f);
+		do_opacify(f);
 		return -opacify(f + dmn);
 #else
 		return __fadd_ru(f, 1.401298464324817071e-45); // note that relevant CUDA chips do not have penalties on denormal addition/multiplication
@@ -30,7 +30,7 @@ namespace ivarp {
 #ifndef __CUDA_ARCH__
 		const double dmn = -std::numeric_limits<double>::denorm_min();
 		d = -d;
-		opacify(d);
+		do_opacify(d);
 		return -opacify(d + dmn);
 #else
 		return __dadd_ru(d, 4.940656458412465442e-324);
