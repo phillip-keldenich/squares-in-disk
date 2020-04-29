@@ -42,7 +42,7 @@ namespace impl {
         using NumberType = typename Context::NumberType;
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
-            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCuda<NumberType>::value) {
+            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCUDA<NumberType>::value) {
                 return do_eval(c, args, TupleIndexPack<typename CalledType::Args>{});
             }
         )
@@ -52,7 +52,7 @@ namespace impl {
             static PredicateEvalResultType<Context> do_eval(const CalledType& c,
                                                             const ArgArray& args,
                                                             IndexPack<Indices...>)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return invoke_tag<Tag, Context>(args, get<Indices>(c.args)...);
             }
@@ -67,7 +67,7 @@ namespace impl {
         using NumberType = typename Context::NumberType;
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
-            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCuda<NumberType>::value) {
+            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCUDA<NumberType>::value) {
                 return do_eval(c, args, TupleIndexPack<typename CalledType::Args>{});
             }
         )
@@ -105,7 +105,7 @@ namespace impl {
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(std::size_t Index1), NumberType,
             static PredicateEvalResultType<Context>
                 do_eval(const CalledType& c, const ArgArray& args, IndexPack<Index1>)
-                    noexcept(AllowsCuda<NumberType>::value)
+                    noexcept(AllowsCUDA<NumberType>::value)
             {
                 using ArgTuple = typename CalledType::Args;
                 return PredicateEvaluateImpl<Context, TupleElementType<Index1, ArgTuple>, ArgArray>::eval(
@@ -120,7 +120,7 @@ namespace impl {
             IVARP_TEMPLATE_PARAMS(std::size_t Index1, std::size_t Index2, std::size_t... Indices), NumberType,
                 static PredicateEvalResultType<Context> do_eval(const CalledType& c, const ArgArray& args,
                                                                 IndexPack<Index1,Index2,Indices...>)
-                    noexcept(AllowsCuda<NumberType>::value)
+                    noexcept(AllowsCUDA<NumberType>::value)
             {
                 using ArgTuple = typename CalledType::Args;
                 auto r1 = PredicateEvaluateImpl<Context, TupleElementType<Index1, ArgTuple>, ArgArray>::eval(

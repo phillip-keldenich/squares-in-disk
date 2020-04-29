@@ -28,28 +28,28 @@
 
 namespace ivarp {
     template<typename Number> static inline IVARP_HD
-        std::enable_if_t<IsCudaNumber<Number>::value && !IsIntervalType<Number>::value, Number>
+        std::enable_if_t<IsCUDANumber<Number>::value && !IsIntervalType<Number>::value, Number>
             minimum(const Number& n1, const Number& n2) noexcept
     {
         return n1 < n2 ? n1 : n2;
     }
 
     template<typename Number> static inline IVARP_H
-        std::enable_if_t<IsNumber<Number>::value && !IsCudaNumber<Number>::value && !IsIntervalType<Number>::value, Number>
+        std::enable_if_t<IsNumber<Number>::value && !IsCUDANumber<Number>::value && !IsIntervalType<Number>::value, Number>
             minimum(const Number& n1, const Number& n2)
     {
         return n1 < n2 ? n1 : n2;
     }
 
     template<typename Number> static inline IVARP_HD
-        std::enable_if_t<IsCudaNumber<Number>::value && !IsIntervalType<Number>::value, Number>
+        std::enable_if_t<IsCUDANumber<Number>::value && !IsIntervalType<Number>::value, Number>
             maximum(const Number& n1, const Number& n2) noexcept
     {
         return n2 < n1 ? n1 : n2;
     }
 
     template<typename Number> static inline IVARP_H
-        std::enable_if_t<IsNumber<Number>::value && !IsCudaNumber<Number>::value && !IsIntervalType<Number>::value, Number>
+        std::enable_if_t<IsNumber<Number>::value && !IsCUDANumber<Number>::value && !IsIntervalType<Number>::value, Number>
             maximum(const Number& n1, const Number& n2)
     {
         return n2 < n1 ? n1 : n2;
@@ -57,7 +57,7 @@ namespace ivarp {
 
     namespace impl {
         template<typename IntervalType> static inline IVARP_HD
-            std::enable_if_t<IsCudaNumber<IntervalType>::value, IntervalType>
+            std::enable_if_t<IsCUDANumber<IntervalType>::value, IntervalType>
                 ia_minimum(const IntervalType& i1, const IntervalType& i2) noexcept
         {
             return IntervalType{
@@ -67,7 +67,7 @@ namespace ivarp {
         }
 
         template<typename IntervalType> static inline IVARP_H
-            std::enable_if_t<!IsCudaNumber<IntervalType>::value && !IntervalType::has_explicit_infinity, IntervalType>
+            std::enable_if_t<!IsCUDANumber<IntervalType>::value && !IntervalType::has_explicit_infinity, IntervalType>
                 ia_minimum(const IntervalType& i1, const IntervalType& i2)
         {
             return IntervalType{
@@ -77,7 +77,7 @@ namespace ivarp {
         }
 
         template<typename IntervalType> static inline IVARP_HD
-            std::enable_if_t<IsCudaNumber<IntervalType>::value, IntervalType>
+            std::enable_if_t<IsCUDANumber<IntervalType>::value, IntervalType>
                 ia_maximum(const IntervalType& i1, const IntervalType& i2) noexcept
         {
             return IntervalType{
@@ -87,7 +87,7 @@ namespace ivarp {
         }
 
         template<typename IntervalType> static inline IVARP_H
-            std::enable_if_t<!IsCudaNumber<IntervalType>::value && !IntervalType::has_explicit_infinity, IntervalType>
+            std::enable_if_t<!IsCUDANumber<IntervalType>::value && !IntervalType::has_explicit_infinity, IntervalType>
                 ia_maximum(const IntervalType& i1, const IntervalType& i2)
         {
             return IntervalType{
@@ -148,28 +148,28 @@ namespace ivarp {
     }
 
     template<typename Number> static inline IVARP_HD
-        std::enable_if_t<IsIntervalType<Number>::value && IsCudaNumber<Number>::value, Number>
+        std::enable_if_t<IsIntervalType<Number>::value && IsCUDANumber<Number>::value, Number>
             minimum(const Number& n1, const Number& n2) noexcept
     {
        return impl::ia_minimum(n1, n2);
     }
 
     template<typename Number> static inline IVARP_H
-        std::enable_if_t<IsIntervalType<Number>::value && !IsCudaNumber<Number>::value, Number>
+        std::enable_if_t<IsIntervalType<Number>::value && !IsCUDANumber<Number>::value, Number>
             minimum(const Number& n1, const Number& n2)
     {
        return impl::ia_minimum(n1, n2);
     }
 
     template<typename Number> static inline IVARP_HD
-        std::enable_if_t<IsIntervalType<Number>::value && IsCudaNumber<Number>::value, Number>
+        std::enable_if_t<IsIntervalType<Number>::value && IsCUDANumber<Number>::value, Number>
             maximum(const Number& n1, const Number& n2) noexcept
     {
        return impl::ia_maximum(n1, n2);
     }
 
     template<typename Number> static inline IVARP_H
-        std::enable_if_t<IsIntervalType<Number>::value && !IsCudaNumber<Number>::value, Number>
+        std::enable_if_t<IsIntervalType<Number>::value && !IsCUDANumber<Number>::value, Number>
             maximum(const Number& n1, const Number& n2)
     {
        return impl::ia_maximum(n1, n2);

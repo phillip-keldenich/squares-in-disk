@@ -25,7 +25,9 @@
 
 #pragma once
 
+#include "ivarp/math.hpp"
 #include "interval_sqrt.hpp"
+#include "interval_asin.hpp"
 
 namespace ivarp {
 namespace impl {
@@ -36,14 +38,11 @@ namespace impl {
     extern IVARP_EXPORTED_SYMBOL IDouble builtin_interval_cos(IDouble x);
     extern IVARP_EXPORTED_SYMBOL IFloat builtin_interval_exp(IFloat x);
     extern IVARP_EXPORTED_SYMBOL IDouble builtin_interval_exp(IDouble x);
-    extern IVARP_EXPORTED_SYMBOL IFloat builtin_interval_asin(IFloat x);
-    extern IVARP_EXPORTED_SYMBOL IDouble builtin_interval_asin(IDouble x);
 
     /// Irrational functions for intervals of rationals.
     extern IVARP_EXPORTED_SYMBOL IRational rational_interval_sin(const IRational& x, unsigned precision);
     extern IVARP_EXPORTED_SYMBOL IRational rational_interval_cos(const IRational& x, unsigned precision);
     extern IVARP_EXPORTED_SYMBOL IRational rational_interval_exp(const IRational& x, unsigned precision);
-    extern IVARP_EXPORTED_SYMBOL IRational rational_interval_asin(const IRational& x, unsigned precision);
 
     /// Overloaded sine evaluation function forwarding to the corresponding functions for the given number type.
     template<typename Context, typename FloatType> static inline IVARP_HD
@@ -77,24 +76,6 @@ namespace impl {
 
     template<typename Context> static inline IRational cos(const IRational& r) {
         return impl::rational_interval_cos(r, Context::irrational_precision);
-    }
-
-    /// Overloaded arc sine evaluation function forwarding to the corresponding functions for the given number type.
-    template<typename Context, typename FloatType> static inline IVARP_HD
-        std::enable_if_t<std::is_floating_point<FloatType>::value, FloatType> asin(FloatType x) noexcept
-    {
-        return IVARP_NOCUDA_USE_STD asin(x);
-    }
-
-    template<typename Context, typename FloatType> static inline
-        std::enable_if_t<std::is_floating_point<FloatType>::value, Interval<FloatType>>
-            asin(Interval<FloatType> x) noexcept
-    {
-        return builtin_interval_asin(x);
-    }
-
-    template<typename Context> static inline IRational asin(const IRational& r) {
-        return rational_interval_asin(r, Context::irrational_precision);
     }
 
     /// Overloaded exp evaluation function that forwards to the corresponding functions for the given number type.
@@ -201,11 +182,24 @@ namespace impl {
             return "asin";
         }
 
-        template<typename Context, typename NumberType>
-            static inline NumberType eval(const NumberType& n)
-        {
-            return ::ivarp::impl::asin<Context>(n);
-        }
+		IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
+			IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
+				static inline NumberType eval(const NumberType& n)
+			{
+				return ::ivarp::impl::interval_asin<Context, fixed_point_bounds::Unbounded>(n);
+			}
+		);
+
+        struct BoundedEval {
+            /// Interval arc sine becomes cheaper if we know the operand is between -1 and 1.
+            IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
+                IVARP_TEMPLATE_PARAMS(typename Context, typename Bounds, typename NumberType), NumberType,
+                    static inline NumberType eval(const NumberType& n)
+                {
+                    return ::ivarp::impl::interval_asin<Context, Bounds>(n);
+                }
+            )
+        };
     };
 
     template<typename A> using MathSin = MathUnary<MathSinTag, A>;

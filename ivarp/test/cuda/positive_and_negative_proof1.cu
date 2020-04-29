@@ -73,14 +73,18 @@ namespace {
         ProverSettings settings;
         settings.generation_count = 2;
         settings.max_iterations_per_node = 1;
+		ProofInformation info;
 
         // create input and run prover
         const auto input = prover_input<Context, VarSplit>(constrs_sat);
-        REQUIRE(!run_prover(input, handler, nullptr, settings));
+        REQUIRE(!run_prover(input, handler, &info, settings));
 
         // check that the ranges for x and y are not empty.
         REQUIRE(joiner.min_x < joiner.max_x);
         REQUIRE(joiner.min_y < joiner.max_y);
+		REQUIRE(info.num_cuboids > 0);
+		REQUIRE(info.num_leaf_cuboids > 0);
+		REQUIRE(info.num_critical_cuboids > 0);
 
         // check that the mid point actually violates the <= 2.37 condition.
         double midx = 0.5 * (joiner.max_x.load() + joiner.min_x.load());
@@ -93,11 +97,12 @@ namespace {
         JoinHandler handler(&joiner);
 
         ProverSettings settings;
+		ProofInformation info;
         settings.generation_count = 7;
         settings.max_iterations_per_node = 1;
 
         // create input and run prover
         const auto input = prover_input<Context, VarSplit>(constrs_unsat);
-        REQUIRE(run_prover(input, handler, nullptr, settings));
+        REQUIRE(run_prover(input, handler, &info, settings));
     }
 }

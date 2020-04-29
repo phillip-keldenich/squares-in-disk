@@ -45,9 +45,9 @@ namespace ivarp {
 
         /// Evaluation with user-defined Context and arguments as array.
         template<typename Context, typename ArgArray>
-            IVARP_HD inline EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> array_evaluate(const ArgArray& args) const noexcept;
+            IVARP_HD inline EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> array_evaluate(const ArgArray& args) const noexcept;
         template<typename Context, typename ArgArray>
-            IVARP_H inline DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> array_evaluate(const ArgArray& args) const;
+            IVARP_H inline DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> array_evaluate(const ArgArray& args) const;
     };
 
     /// Marking predicate tags that are junctors (not, or, and, xor).

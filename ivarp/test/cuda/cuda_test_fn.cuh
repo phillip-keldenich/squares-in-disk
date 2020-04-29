@@ -39,23 +39,29 @@ namespace {
     }
 }
 
-static inline void check_output(ivarp::IBool r, ivarp::IBool gpu) {
+static inline bool check_output(ivarp::IBool r, ivarp::IBool gpu) {
     if(!ivarp::definitely(r)) {
         REQUIRE(!ivarp::definitely(gpu));
     }
     if(ivarp::possibly(r)) {
         REQUIRE(ivarp::possibly(gpu));
     }
+	return true;
 }
 
-template<typename NumberType> static inline void check_output(const ivarp::IRational& r, ivarp::Interval<NumberType> gpu) {
-    REQUIRE((!r.possibly_undefined() || gpu.possibly_undefined()));
-    REQUIRE(gpu.lb() <= gpu.ub());
-
-    REQUIRE((r.finite_lb() || !gpu.finite_lb()));
-    REQUIRE((r.finite_ub() || !gpu.finite_ub()));
-    REQUIRE(!gpu.below_lb(r.lb()));
-    REQUIRE(!gpu.above_ub(r.ub()));
+template<typename NumberType> static inline bool check_output(const ivarp::IRational& r, ivarp::Interval<NumberType> gpu) {
+	if(
+		(r.possibly_undefined() && !gpu.possibly_undefined()) ||
+		(gpu.lb() > gpu.ub()) ||
+		(!r.finite_lb() && gpu.finite_lb()) ||
+		(!r.finite_ub() && gpu.finite_ub()) ||
+		gpu.below_lb(r.lb()) ||
+		gpu.above_ub(r.ub())
+	) {
+		std::cerr << "CUDA function returned invalid or wrong result - CUDA " << gpu << ", rational (CPU) " << r << std::endl;
+		return false;
+	}
+	return true;
 }
 
 template<typename NumberType, typename MathExpr, typename WidthsIter, std::size_t NumVars>
@@ -87,6 +93,9 @@ template<typename NumberType, typename MathExpr, typename WidthsIter, std::size_
         }
 
         auto result = expr.template array_evaluate<RationalCtx>(ival);
-        check_output(result, output[i]);
+        if(!check_output(result, output[i])) {
+			REQUIRE(false);
+		}
     }
 }
+

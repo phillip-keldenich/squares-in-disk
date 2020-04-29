@@ -40,7 +40,7 @@ namespace impl {
     template<typename C, std::int64_t LB, std::int64_t UB> struct NumChildren<MathConstant<C,LB,UB>> {
         static constexpr std::size_t value = 0;
     };
-    template<std::int64_t LB, std::int64_t UB> struct NumChildren<MathCudaConstant<LB,UB>> {
+    template<std::int64_t LB, std::int64_t UB> struct NumChildren<MathCUDAConstant<LB,UB>> {
         static constexpr std::size_t value = 0;
     };
     template<typename C, bool LB, bool UB> struct NumChildren<MathBoolConstant<C,LB,UB>> {

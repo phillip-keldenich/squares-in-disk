@@ -178,7 +178,7 @@ namespace impl {
     }
 
     template<std::int64_t LB, std::int64_t UB>
-    static inline PrintRank get_print_rank(const MathCudaConstant<LB,UB>&, bool parent_bounded, const PrintOptions&)
+    static inline PrintRank get_print_rank(const MathCUDAConstant<LB,UB>&, bool parent_bounded, const PrintOptions&)
     {
         return PrintRank::ID;
     }
@@ -544,7 +544,7 @@ namespace impl {
         }
 
         template<std::int64_t LB, std::int64_t UB>
-        void do_print(std::ostream& output, const MathCudaConstant<LB, UB>& c, bool)
+        void do_print(std::ostream& output, const MathCUDAConstant<LB, UB>& c, bool)
         {
             do_print_constant(output, c.idouble);
         }

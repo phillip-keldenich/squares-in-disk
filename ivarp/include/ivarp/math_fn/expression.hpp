@@ -44,10 +44,10 @@ namespace ivarp {
 
         // evaluation with explicit context and arguments as array
         template<typename Context, typename ArrayType>
-        inline IVARP_HD EnableForCudaNT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context,ArrayType>>
+        inline IVARP_HD EnableForCUDANT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context,ArrayType>>
             array_evaluate(const ArrayType& args) const noexcept;
         template<typename Context, typename ArrayType>
-        inline IVARP_H DisableForCudaNT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context,ArrayType>>
+        inline IVARP_H DisableForCUDANT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context,ArrayType>>
             array_evaluate(const ArrayType& args) const;
     };
 }

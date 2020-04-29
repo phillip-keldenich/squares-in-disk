@@ -58,8 +58,9 @@ namespace impl {
             "ldmxcsr %2\n"       // restore control register
             : "+x"(lb), "+x"(ub), "=m"(fpmode)
         );
-#elif defined(_MSC_VER) // no inline assembly for MSVC 64 bit, but in "Release" mode,
-                        // the compiler breaks the code if we use intrinsics
+#elif defined(_MSC_VER)
+        // no inline assembly for MSVC 64 bit, but in "Release" mode,
+        // the compiler breaks the code if we use intrinsics. So we use masm.
         lb = do_sqrt_rd(lb);
         ub = do_sqrt_ru(ub);
 #else
@@ -84,8 +85,9 @@ namespace impl {
             "ldmxcsr %2\n"       // restore control register
             : "+x"(lb), "+x"(ub), "=m"(fpmode)
         );
-#elif defined(_MSC_VER) // no inline assembly for MSVC 64 bit, but in "Release" mode,
-                        // the compiler breaks the code if we use intrinsics
+#elif defined(_MSC_VER)
+        // no inline assembly for MSVC 64 bit, but in "Release" mode,
+        // the compiler breaks the code if we use intrinsics
         lb = do_sqrt_rd(lb);
         ub = do_sqrt_ru(ub);
 #else
@@ -129,7 +131,7 @@ namespace impl {
     }
 
     template<typename Context, typename BoundsType, typename NumberType> static inline IVARP_HD
-        std::enable_if_t<IsIntervalType<NumberType>::value && AllowsCuda<NumberType>::value, NumberType>
+        std::enable_if_t<IsIntervalType<NumberType>::value && AllowsCUDA<NumberType>::value, NumberType>
             bounded_sqrt(const NumberType& x) noexcept
     {
         // pass bounds to interval sqrt method
@@ -141,7 +143,7 @@ namespace impl {
     }
 
     template<typename Context, typename BoundsType, typename NumberType> static inline IVARP_H
-        std::enable_if_t<!IsIntervalType<NumberType>::value || !AllowsCuda<NumberType>::value, NumberType>
+        std::enable_if_t<!IsIntervalType<NumberType>::value || !AllowsCUDA<NumberType>::value, NumberType>
             bounded_sqrt(const NumberType& x) noexcept
     {
         // discard bounds

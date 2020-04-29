@@ -23,3 +23,8 @@
 add_executable(squares_in_disk_prover main.cpp lemma30.cpp lemma31.cpp lemma32.cpp lemma33.cpp lemma34.cpp lemma35.cpp)
 target_link_libraries(squares_in_disk_prover PRIVATE ivarp)
 
+if(CMAKE_CUDA_COMPILER AND NOT IVARP_NO_CUDA)
+	add_executable(squares_in_disk_prover_cuda EXCLUDE_FROM_ALL main.cpp lemma30.cu lemma31.cu lemma32.cu lemma33.cu lemma34.cu lemma35.cu)
+	target_link_libraries(squares_in_disk_prover_cuda PRIVATE ivarp)
+endif()
+

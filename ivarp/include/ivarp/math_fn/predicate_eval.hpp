@@ -42,7 +42,7 @@
 namespace ivarp {
 namespace impl {
     template<typename Context, typename CalledType, typename... Args>
-        IVARP_HD static inline EnableForCudaNT<typename Context::NumberType, PredicateEvalResultType<Context>>
+        IVARP_HD static inline EnableForCUDANT<typename Context::NumberType, PredicateEvalResultType<Context>>
             predicate_evaluate(const CalledType& c, Args&&... args)
     {
         const Array<typename Context::NumberType, sizeof...(args)> a{
@@ -52,7 +52,7 @@ namespace impl {
     }
 
     template<typename Context, typename CalledType, typename... Args>
-        IVARP_H static inline DisableForCudaNT<typename Context::NumberType, PredicateEvalResultType<Context>>
+        IVARP_H static inline DisableForCUDANT<typename Context::NumberType, PredicateEvalResultType<Context>>
             predicate_evaluate(const CalledType& c, Args&&... args)
     {
         const Array<typename Context::NumberType, sizeof...(args)> a{
@@ -73,7 +73,7 @@ template<typename Derived> template<typename Context, typename... Args>
 
 template<typename Derived> template<typename Context, typename ArgArray>
     auto ivarp::MathPredBase<Derived>::array_evaluate(const ArgArray& args) const noexcept ->
-        EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>>
+        EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>>
 {
     return impl::PredicateEvaluateImpl<Context, Derived, BareType<ArgArray>>::
         eval(static_cast<const Derived&>(*this), args);
@@ -81,7 +81,7 @@ template<typename Derived> template<typename Context, typename ArgArray>
 
 template<typename Derived> template<typename Context, typename ArgArray>
     auto ivarp::MathPredBase<Derived>::array_evaluate(const ArgArray& args) const ->
-        DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>>
+        DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>>
 {
     return impl::PredicateEvaluateImpl<Context, Derived, BareType<ArgArray>>::
         eval(static_cast<const Derived&>(*this), args);

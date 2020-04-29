@@ -95,6 +95,16 @@ namespace ivarp {
                 expr(std::forward<ExprT>(expr))
         {}
 
+        IVARP_H ValueDescription(const ValueDescription& v) :
+            name(v.name),
+            expr(v.expr)
+        {}
+
+        IVARP_H ValueDescription(ValueDescription&& v) noexcept :
+            name(std::move(v.name)),
+            expr(std::move(v.expr))
+        {}
+
         std::string name;
         Child       expr;
     };

@@ -95,8 +95,8 @@ TEST_CASE_TEMPLATE("[ivarp][critical reducer] CUDA critical reducer", NT, float,
         REQUIRE(output[0][1].ub() == M[1]);
         REQUIRE(output[0][2].lb() == m[2]);
         REQUIRE(output[0][2].ub() == M[2]);
-    } catch(const CudaError& err) {
-        std::cerr << "CudaError: " << err.what() << std::endl;
+    } catch(const CUDAError& err) {
+        std::cerr << "CUDAError: " << err.what() << std::endl;
         REQUIRE(err.what() == nullptr);
     }
 }

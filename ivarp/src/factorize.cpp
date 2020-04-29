@@ -51,6 +51,10 @@ namespace ivarp {
     }
 
     std::vector<FactorEntry> factorize(unsigned number) {
+        if(number == 0) {
+            throw std::invalid_argument("0 passed into factorize!");
+        }
+
         std::vector<FactorEntry> result;
         constexpr unsigned maxvalue = (1u << (sizeof(unsigned) * CHAR_BIT / 2u)) - 1;
         constexpr unsigned maxcurr = maxvalue - maxvalue % 30;
@@ -78,7 +82,6 @@ namespace ivarp {
         return result;
     }
 
-    namespace {
         struct FactorPackingInfo {
             explicit FactorPackingInfo(unsigned input) :
                 factorization(factorize(input)),
@@ -120,55 +123,113 @@ namespace ivarp {
             std::vector<FactorEntry> factorization;
             unsigned current_product, max_product;
         };
-    }
 
-    void pack_factors(unsigned packed_num, unsigned num_buckets, const unsigned *bucket_in, unsigned* bucket_out) {
-        std::vector<FactorEntry> packed_fac = factorize(packed_num);
-        std::reverse(packed_fac.begin(), packed_fac.end());
-        std::unique_ptr<FactorPackingInfo[]> state =
-            std::make_unique<FactorPackingInfo[]>(num_buckets);
+        class FactorPackingState {
+        public:
+            struct PackedEntries {
+                explicit PackedEntries() noexcept :
+                    entries(), current_product(1), remaining(1), max_product(1)
+                {}
 
-        for(unsigned i = 0; i < num_buckets; ++i) {
-            state[i] = FactorPackingInfo{i};
-        }
+                std::vector<FactorEntry> entries;
+                unsigned current_product, remaining, max_product;
+            };
 
-        for(const auto& factor : packed_fac) {
-            for(std::size_t i = 0; i < num_buckets; ++i) {
-                state[i].advance(factor.factor);
+            FactorPackingState(unsigned packed_num, unsigned num_buckets, const unsigned *bucket_in) :
+                factorization(factorize(packed_num)),
+                packing(std::size_t(num_buckets))
+            {
+                std::reverse(factorization.begin(), factorization.end());
+                for(unsigned i = 0; i < num_buckets; ++i) {
+                    packing[i].max_product = bucket_in[i];
+                    packing[i].remaining = bucket_in[i];
+                }
             }
 
-            for(unsigned j = 0; j < factor.multiplicity; ++j) {
-                std::size_t index_fitting = ~std::size_t(0);
+            void run() {
+                for(const auto& factor : factorization) {
+                    for(unsigned j = 0; j < factor.multiplicity; ++j) {
+                        pack_factor(factor.factor);
+                    }
+                }
+            }
+
+            unsigned packing_result(unsigned i) const noexcept {
+                return packing[i].current_product;
+            }
+
+        private:
+            void pack_factor_into(unsigned f, std::size_t entry, bool fits) {
+                PackedEntries& e = packing[entry];
+                if(e.entries.empty() || e.entries.back().factor != f) {
+                    e.entries.push_back(FactorEntry{f, 1u});
+                } else {
+                    e.entries.back().multiplicity += 1;
+                }
+                e.current_product *= f;
+                if(fits) {
+                    packing[entry].remaining /= f;
+                }
+            }
+
+            bool factor_fits(unsigned f, PackedEntries& e) const noexcept {
+                return e.remaining % f == 0;
+            }
+
+            bool factor_gap(unsigned f, PackedEntries& e) const noexcept {
+                return e.current_product * f <= e.max_product;
+            }
+
+            void pack_factor(unsigned f) {
+                std::size_t index_fitting = std::numeric_limits<std::size_t>::max();
                 unsigned smallest_fitting = std::numeric_limits<unsigned>::max();
-                std::size_t index_gap = ~std::size_t(0);
+                std::size_t index_gap = std::numeric_limits<std::size_t>::max();
                 unsigned smallest_gap = std::numeric_limits<unsigned>::max();
-                std::size_t index_smallest = ~std::size_t(0);
+                std::size_t index_smallest = std::numeric_limits<std::size_t>::max();
                 unsigned smallest = std::numeric_limits<unsigned>::max();
 
-                for(std::size_t i = 0; i < num_buckets; ++i) {
-                    unsigned curr = state[i].current_product;
-                    if(state[i].fits(factor.factor) && curr < smallest_fitting) {
-                        index_fitting = i;
-                        smallest_fitting = curr;
-                    }
-                    if(state[i].gap(factor.factor) && curr < smallest_gap) {
-                        index_gap = i;
-                        smallest_gap = curr;
-                    }
-                    if(curr < smallest) {
-                        index_smallest = i;
-                        smallest = curr;
+                for(std::size_t i = 0, s = packing.size(); i < s; ++i) {
+                    PackedEntries& e = packing[i];
+
+                    if(factor_gap(f, e)) {
+                        if(factor_fits(f, e)) {
+                            if(e.current_product < smallest_fitting) {
+                                smallest_fitting = e.current_product;
+                                index_fitting = i;
+                            }
+                        } else {
+                            if(e.current_product < smallest_gap) {
+                                smallest_gap = e.current_product;
+                                index_gap = i;
+                            }
+                        }
+                    } else {
+                        if(e.current_product < smallest) {
+                            smallest = e.current_product;
+                            index_smallest = i;
+                        }
                     }
                 }
 
-                std::size_t index = (index_fitting < num_buckets) ? index_fitting :
-                                    (index_gap < num_buckets) ? index_gap :  index_smallest;
-                state[index].pack(factor.factor);
+                if(index_fitting < packing.size()) {
+                    pack_factor_into(f, index_fitting, true);
+                } else if(index_gap < packing.size()) {
+                    pack_factor_into(f, index_gap, false);
+                } else {
+                    pack_factor_into(f, index_smallest, false);
+                }
             }
-        }
 
-        for(std::size_t i = 0; i < num_buckets; ++i) {
-            bucket_out[i] = std::min(state[i].current_product, state[i].max_product);
+        private:
+            std::vector<FactorEntry> factorization;
+            std::vector<PackedEntries> packing;
+        };
+
+    void pack_factors(unsigned packed_num, unsigned num_buckets, const unsigned *bucket_in, unsigned* bucket_out) {
+        FactorPackingState state(packed_num, num_buckets, bucket_in);
+        state.run();
+        for(unsigned i = 0; i < num_buckets; ++i) {
+            bucket_out[i] = state.packing_result(i);
         }
     }
 }

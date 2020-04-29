@@ -48,11 +48,12 @@ namespace impl {
     };
 
     /// One copy of this information is held in device memory for each device.
-    template<typename ProverInputType> struct CUDAProverCoreStaticKernelInput {
+    template<typename ProverInputType_> struct CUDAProverCoreStaticKernelInput {
         static IVARP_HD constexpr std::size_t num_args() noexcept {
             return constexpr_fn<std::size_t, ProverInputType::num_args>();
         }
 
+        using ProverInputType = ProverInputType_;
         using Context = typename ProverInputType::Context;
         using NumberType = typename Context::NumberType;
         using ConcreteNT = typename NumberType::NumberType;
@@ -70,7 +71,7 @@ namespace impl {
         RCT rct;
     };
 
-    struct CudaCriticalHandlerJoinReducer {
+    struct CUDACriticalHandlerJoinReducer {
         template<typename ReducerType, typename CriticalType>
             IVARP_D void operator()(ReducerType& reducer, const CriticalType& critical)
         {
@@ -79,7 +80,7 @@ namespace impl {
     };
 
     template<typename OutputType>
-    struct CudaCriticalHandlerReport {
+    struct CUDACriticalHandlerReport {
         using HostOB = ivarp::cuda::CUDAOutputBuffer<OutputType>;
         using DevOB = typename HostOB::CUDADeviceOutputBuffer;
 
@@ -102,6 +103,8 @@ namespace impl {
         using Cuboid = Array<NumberType, StaticKernelInput::num_args()>;
         using Splitter = ivarp::Splitter<NumberType>;
 
+        static constexpr std::size_t num_args = StaticKernelInput::ProverInputType::num_args;
+
         IVARP_D CUDAProverCoreKernel(const StaticKernelInput* input, const CriticalHandler& h, Reducer* reducer) :
             input(input), handler(h), reducer(reducer)
         {}
@@ -111,6 +114,34 @@ namespace impl {
         }
 
     private:
+        template<std::size_t CurrVar, typename NextSplit, typename... Splits, std::enable_if_t<(CurrVar < NextSplit::arg),int> = 0>
+            IVARP_D bool violates_constraints(const Cuboid& element, SplitInfoSequence<NextSplit,Splits...> remaining_splits)
+        {
+            if(cuda::can_prune<CurrVar, Context>(input->rct, element.data())) {
+                return true;
+            }
+            return violates_constraints<CurrVar+1>(element, remaining_splits);
+        }
+        template<std::size_t CurrVar, typename NextSplit, typename... Splits, std::enable_if_t<(CurrVar == NextSplit::arg),int> = 0>
+            IVARP_D bool violates_constraints(const Cuboid&, SplitInfoSequence<NextSplit,Splits...>)
+        {
+            return false;
+        }
+
+        template<std::size_t CurrVar, std::enable_if_t<(CurrVar < num_args),int> = 0>
+            IVARP_D bool violates_constraints(const Cuboid& element, SplitInfoSequence<> remaining_splits)
+        {
+            if(cuda::can_prune<CurrVar, Context>(input->rct, element.data())) {
+                return true;
+            }
+            return violates_constraints<CurrVar+1>(element, remaining_splits);
+        }
+        template<std::size_t CurrVar, std::enable_if_t<(CurrVar == num_args),int> = 0>
+            IVARP_D bool violates_constraints(const Cuboid&, SplitInfoSequence<>)
+        {
+            return false;
+        }
+
         template<typename S1, typename... S> IVARP_D void split_var(const Cuboid& element, SplitInfoSequence<S1,S...>)
         {
             using GI = cuda::GridInfoOf<S1, StaticSplitInfo>;
@@ -126,7 +157,7 @@ namespace impl {
                     ++leafs;
                     continue;
                 }
-                if(cuda::can_prune<S1::arg, Context>(input->rct, new_c.data())) {
+                if(violates_constraints<S1::arg>(new_c, SplitInfoSequence<S...>{})) {
                     ++leafs;
                     continue;
                 }
@@ -216,6 +247,7 @@ namespace impl {
         }
 
         void replace_default_settings(ProverSettings& settings) const {
+            settings.thread_count = static_cast<int>(settings.cuda_device_ids.size());
             if(settings.dequeue_buffer_size <= 0) {
                 settings.dequeue_buffer_size = 1024;
             }
@@ -265,7 +297,7 @@ namespace impl {
                 PerThreadHostInfo& info = core->per_thread_host_info[thread_id];
                 dim3 grid_dim(static_cast<int>(num_elements), info.grid_y);
                 output_buffer->reset();
-                impl::CudaCriticalHandlerReport<InternalElement> reporter{output_buffer->pass_to_device()};
+                impl::CUDACriticalHandlerReport<InternalElement> reporter{output_buffer->pass_to_device()};
 
                 for(;;) {
                     impl::cuda_prover_core_kernel<<<grid_dim, info.block_dims, info.shared_memory_needed>>>(
@@ -295,7 +327,7 @@ namespace impl {
             {
                 PerThreadHostInfo& info = core->per_thread_host_info[thread_id];
                 dim3 grid_dim(static_cast<int>(num_elements), info.grid_y);
-                impl::CudaCriticalHandlerJoinReducer reduce;
+                impl::CUDACriticalHandlerJoinReducer reduce;
                 impl::cuda_prover_core_kernel<<<grid_dim, info.block_dims, info.shared_memory_needed>>>(
                     info.static_kernel_input.get(), dev_elms, dev_globs, reduce
                 );
@@ -338,7 +370,7 @@ namespace impl {
             for(;;) {
                 try {
                     return p_try_call_kernel(thread_id, in_elements, beg, end, h);
-                } catch(const CudaError& err) {
+                } catch(const CUDAError& err) {
                     // Check whether this is one of the errors that we can prevent by moving to
                     // fewer blocks (i.e., watchdog or configuration issues as OOM or watchdog timer)
                     if(err.get_error_code() == cudaErrorInvalidConfiguration ||

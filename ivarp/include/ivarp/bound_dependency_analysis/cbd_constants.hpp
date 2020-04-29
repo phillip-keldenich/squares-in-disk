@@ -35,7 +35,7 @@ namespace impl {
     };
 
     template<std::size_t ArgIndex, std::int64_t LB, std::int64_t UB>
-        struct ComputeBoundDepsMetaEvalTagImpl<ArgIndex, MathCudaConstant<LB,UB>>
+        struct ComputeBoundDepsMetaEvalTagImpl<ArgIndex, MathCUDAConstant<LB,UB>>
     {
         using Type = CBDNoDependencyType;
     };

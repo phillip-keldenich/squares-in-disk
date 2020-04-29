@@ -44,6 +44,7 @@ template<typename ProverInputType, typename ConstraintSystemType, typename Handl
     ivarp::ProofInformation info;
     ivarp::ProgressPrinter printer(std::cout, 3, &c);
     ivarp::ProverSettings settings;
+	settings.max_iterations_per_node = 1;
     if(!run_prover(p, h, &info, settings, printer)) {
         throw ProofError(name);
     }

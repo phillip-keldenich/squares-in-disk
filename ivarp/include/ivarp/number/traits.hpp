@@ -95,7 +95,7 @@ namespace impl {
     };
 
 namespace impl {
-    template<typename NumType, bool AllowsCuda> struct NumberTraitsIntvImpl;
+    template<typename NumType, bool AllowsCUDA> struct NumberTraitsIntvImpl;
 
     template<typename NumType> struct NumberTraitsIntvImpl<NumType,false> {
     private:
@@ -155,12 +155,12 @@ namespace impl {
         std::is_same<BareType<T>, BigInt>::value
     >;
 
-    template<typename NT, typename ResultType=void> using EnableForCudaNT =
-        std::enable_if_t<AllowsCuda<NT>::value, ResultType>;
-    template<typename ResultType, typename... NTs> using EnableForCudaNTs =
-        std::enable_if_t<AllAllowCuda<NTs...>::value, ResultType>;
-    template<typename NT, typename ResultType=void> using DisableForCudaNT =
-        std::enable_if_t<!AllowsCuda<NT>::value, ResultType>;
-    template<typename ResultType, typename... NTs> using DisableForCudaNTs =
-        std::enable_if_t<!AllAllowCuda<NTs...>::value, ResultType>;
+    template<typename NT, typename ResultType=void> using EnableForCUDANT =
+        std::enable_if_t<AllowsCUDA<NT>::value, ResultType>;
+    template<typename ResultType, typename... NTs> using EnableForCUDANTs =
+        std::enable_if_t<AllAllowCUDA<NTs...>::value, ResultType>;
+    template<typename NT, typename ResultType=void> using DisableForCUDANT =
+        std::enable_if_t<!AllowsCUDA<NT>::value, ResultType>;
+    template<typename ResultType, typename... NTs> using DisableForCUDANTs =
+        std::enable_if_t<!AllAllowCUDA<NTs...>::value, ResultType>;
 }

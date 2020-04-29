@@ -140,12 +140,12 @@ TEST_CASE_TEMPLATE("[ivarp][math_fn] simple predicate eval", NT, float, double) 
                 ivarp::BinaryMathPred<
                     ivarp::BinaryMathPredLT,
                     ivarp::MathArg<std::integral_constant<unsigned int, 0> >,
-                    ivarp::MathCudaConstant<2'200000, 2'200000>
+                    ivarp::MathCUDAConstant<2'200000, 2'200000>
                 >,
                 ivarp::BinaryMathPred<
                     ivarp::BinaryMathPredGT,
                     ivarp::MathArg<std::integral_constant<unsigned int, 0> >,
-                    ivarp::MathCudaConstant<57'000000, 57'000000>
+                    ivarp::MathCUDAConstant<57'000000, 57'000000>
                 >
             >,
             ivarp::BinaryMathPred<
@@ -154,7 +154,7 @@ TEST_CASE_TEMPLATE("[ivarp][math_fn] simple predicate eval", NT, float, double) 
                     ivarp::MathFixedPowTag<2>,
                     ivarp::MathArg<std::integral_constant<unsigned int, 0> >
                 >,
-                ivarp::MathCudaConstant<5'000000, 5'000000>
+                ivarp::MathCUDAConstant<5'000000, 5'000000>
             >
         >,
         ivarp::MathBoolConstant<bool, false, true>

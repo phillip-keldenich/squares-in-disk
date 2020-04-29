@@ -35,7 +35,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static inline NumberType eval(const MathBinary<Tag,A1,A2>& b, const ArgArray& a)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return invoke_tag<Tag,Context>(a, b.arg1, b.arg2);
             }

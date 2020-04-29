@@ -26,42 +26,11 @@
 #include "ivarp/math_fn.hpp"
 #include "mpfr_helpers.hpp"
 
-template<typename FloatType> static inline std::enable_if_t<std::is_floating_point<FloatType>::value, bool>
-    handle_out_of_range(ivarp::Interval<FloatType>& x) noexcept
-{
-    bool und = false;
-    if(BOOST_UNLIKELY(x.ub() > 1)) {
-        if(BOOST_UNLIKELY(x.lb() > 1)) {
-            x.set_lb(1);
-        }
-        x.set_ub(1);
-        und = true;
-    }
-    if(BOOST_UNLIKELY(x.lb() < -1)) {
-        if(BOOST_UNLIKELY(x.ub() < -1)) {
-            x.set_ub(-1);
-        }
-        x.set_lb(-1);
-        und = true;
-    }
-    return und;
-}
-
 template<bool RoundUp, typename FloatType> static inline FloatType rounded_asin(FloatType x) noexcept {
     MPFR_DECL_INIT(mx, std::numeric_limits<FloatType>::digits); // NOLINT
     ivarp::impl::mpfr_set_fltp(mx, x, RoundUp ? MPFR_RNDU : MPFR_RNDD);
     mpfr_asin(mx, mx, RoundUp ? MPFR_RNDU : MPFR_RNDD);
     return ivarp::impl::mpfr_get_fltp<FloatType>(mx, RoundUp ? MPFR_RNDU : MPFR_RNDD);
-}
-
-ivarp::IFloat ivarp::impl::builtin_interval_asin(IFloat x) {
-    bool und = handle_out_of_range(x) || x.possibly_undefined();
-    return ivarp::IFloat{rounded_asin<false>(x.lb()), rounded_asin<true>(x.ub()), und};
-}
-
-ivarp::IDouble ivarp::impl::builtin_interval_asin(IDouble x) {
-    bool und = handle_out_of_range(x) || x.possibly_undefined();
-    return ivarp::IDouble{rounded_asin<false>(x.lb()), rounded_asin<true>(x.ub()), und};
 }
 
 /// Implementation of rounded arc sine for rationals.
@@ -78,4 +47,20 @@ ivarp::IRational ivarp::impl::rational_interval_asin(const ivarp::IRational &x, 
         return {rounded_asin<false>(x.lb(), precision), rounded_asin<true>(x.ub(), precision),
                  x.possibly_undefined()};
     }
+}
+
+IVARP_H float ivarp::impl::cpu_asin_rd(float x) noexcept {
+    return rounded_asin<false, float>(x);
+}
+
+IVARP_H float ivarp::impl::cpu_asin_ru(float x) noexcept {
+    return rounded_asin<true, float>(x);
+}
+
+IVARP_H double ivarp::impl::cpu_asin_rd(double x) noexcept {
+    return rounded_asin<false, double>(x);
+}
+
+IVARP_H double ivarp::impl::cpu_asin_ru(double x) noexcept {
+    return rounded_asin<true, double>(x);
 }

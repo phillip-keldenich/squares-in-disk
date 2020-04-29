@@ -46,7 +46,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static PredicateEvalResultType<Context> eval(const CalledType& c, const ArgArray& a)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 // Compile-time constant check; this should either be removed or used to eliminate
                 // the child evaluation by any decent optimizer.

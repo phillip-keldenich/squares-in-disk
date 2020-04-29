@@ -64,9 +64,9 @@ namespace ivarp {
         using Type = typename MetaEvTag::template Eval<FnType>::Type;
     };
     template<typename MetaEvTag, std::int64_t LB, std::int64_t UB>
-        struct MathMetaEval<MetaEvTag, MathCudaConstant<LB,UB>>
+        struct MathMetaEval<MetaEvTag, MathCUDAConstant<LB,UB>>
     {
-        using Type = typename MetaEvTag::template Eval<MathCudaConstant<LB,UB>>::Type;
+        using Type = typename MetaEvTag::template Eval<MathCUDAConstant<LB,UB>>::Type;
     };
 
     /// ---------- Bounded expressions and predicates ----------

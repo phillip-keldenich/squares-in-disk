@@ -153,7 +153,7 @@ namespace impl {
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
             IVARP_TEMPLATE_PARAMS(std::size_t BoundIndex, typename Context, typename BoundValueArray),
             typename Context::NumberType,
-            auto apply_bound(BoundValueArray& bounds) const noexcept(IsCudaNumber<typename Context::NumberType>::value)
+            auto apply_bound(BoundValueArray& bounds) const noexcept(IsCUDANumber<typename Context::NumberType>::value)
             {
                 const auto& id = ivarp::template get<BoundIndex>(table);
                 constexpr std::size_t result_label = BareType<decltype(id)>::target;

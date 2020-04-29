@@ -33,7 +33,7 @@
 #include "ivarp/tuple.hpp"
 
 int main(int argc, char** argv) {
-    IVARP_ENSURE_ATLOAD_ROUNDDOWN();
+	ivarp::SetRoundDown srd;
     std::cout << std::setprecision(17);
     std::cerr << std::setprecision(17);
     doctest::Context context;

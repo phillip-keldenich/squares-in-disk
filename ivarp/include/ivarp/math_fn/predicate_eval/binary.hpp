@@ -35,7 +35,7 @@ namespace impl {
         using CalledType = BinaryMathPred<Tag, A1, A2>;
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
-            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCuda<NumberType>::value) {
+            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCUDA<NumberType>::value) {
                 return invoke_tag<Tag, Context>(args, c.arg1, c.arg2);
             }
         )

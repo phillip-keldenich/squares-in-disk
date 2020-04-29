@@ -33,6 +33,6 @@ namespace ivarp {
     /// Forward declaration of MathConstant.
     template<typename T, std::int64_t LB, std::int64_t UB> struct MathConstant;
 
-    /// Forward declaration of MathCudaConstant.
-    template<std::int64_t LB, std::int64_t UB> struct MathCudaConstant;
+    /// Forward declaration of MathCUDAConstant.
+    template<std::int64_t LB, std::int64_t UB> struct MathCUDAConstant;
 }

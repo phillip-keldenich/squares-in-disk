@@ -36,7 +36,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static NumberType
-                eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCuda<NumberType>::value)
+                eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCUDA<NumberType>::value)
             {
                 PredicateEvalResultType<Context> pred_result =
                     PredicateEvaluateImpl<Context, typename CalledType::Arg1, ArgArray>::eval(c.arg1, args);

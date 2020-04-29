@@ -132,49 +132,49 @@ namespace ivarp {
         }
 
         template<typename OtherNumType>
-            IVARP_HD EnableForCudaNT<OtherNumType, bool> below_lb(const OtherNumType& o) const noexcept
+            IVARP_HD EnableForCUDANT<OtherNumType, bool> below_lb(const OtherNumType& o) const noexcept
         {
             return exact_less_than(o, this->m_lb);
         }
 
         template<typename OtherNumType>
-            IVARP_H DisableForCudaNT<OtherNumType, bool> below_lb(const OtherNumType& o) const
+            IVARP_H DisableForCUDANT<OtherNumType, bool> below_lb(const OtherNumType& o) const
         {
             return exact_less_than(o, this->m_lb);
         }
 
         template<typename OtherNumType>
-            IVARP_HD EnableForCudaNT<OtherNumType, bool> above_lb(const OtherNumType& o) const noexcept
+            IVARP_HD EnableForCUDANT<OtherNumType, bool> above_lb(const OtherNumType& o) const noexcept
         {
             return exact_less_than(this->m_lb, o);
         }
 
         template<typename OtherNumType>
-            IVARP_H DisableForCudaNT<OtherNumType, bool> above_lb(const OtherNumType& o) const
+            IVARP_H DisableForCUDANT<OtherNumType, bool> above_lb(const OtherNumType& o) const
         {
             return exact_less_than(this->m_lb, o);
         }
 
         template<typename OtherNumType>
-            IVARP_HD EnableForCudaNT<OtherNumType, bool> above_ub(const OtherNumType& o) const noexcept
+            IVARP_HD EnableForCUDANT<OtherNumType, bool> above_ub(const OtherNumType& o) const noexcept
         {
             return exact_less_than(this->m_ub, o);
         }
 
         template<typename OtherNumType>
-            IVARP_H DisableForCudaNT<OtherNumType, bool> above_ub(const OtherNumType& o) const
+            IVARP_H DisableForCUDANT<OtherNumType, bool> above_ub(const OtherNumType& o) const
         {
             return exact_less_than(this->m_ub, o);
         }
 
         template<typename OtherNumType>
-            IVARP_HD EnableForCudaNT<OtherNumType, bool> below_ub(const OtherNumType& o) const noexcept
+            IVARP_HD EnableForCUDANT<OtherNumType, bool> below_ub(const OtherNumType& o) const noexcept
         {
             return exact_less_than(o, this->m_ub);
         }
 
         template<typename OtherNumType>
-            IVARP_H DisableForCudaNT<OtherNumType, bool> below_ub(const OtherNumType& o) const
+            IVARP_H DisableForCUDANT<OtherNumType, bool> below_ub(const OtherNumType& o) const
         {
             return exact_less_than(o, this->m_ub);
         }
@@ -379,7 +379,7 @@ namespace ivarp {
 
     IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
         IVARP_TEMPLATE_PARAMS(typename IntervalType), IntervalType,
-        static inline IntervalType mark_defined(IntervalType iv) noexcept(IsCudaNumber<IntervalType>::value) {
+        static inline IntervalType mark_defined(IntervalType iv) noexcept(IsCUDANumber<IntervalType>::value) {
             iv.set_undefined(false);
             return ivarp::move(iv);
         }

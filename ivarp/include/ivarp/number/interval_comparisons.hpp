@@ -31,7 +31,7 @@ namespace ivarp {
     /// Number op Interval, Interval op Number, and Interval op Interval.
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_HD
         std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value &&
-                         IsIntervalType<IntervalNumberType>::value && AllAllowCuda<NumberType, IntervalNumberType>::value, IBool>
+                         IsIntervalType<IntervalNumberType>::value && AllAllowCUDA<NumberType, IntervalNumberType>::value, IBool>
             operator<(const NumberType& n1, const IntervalNumberType& n2) noexcept
     {
         return {
@@ -42,7 +42,7 @@ namespace ivarp {
 
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_H
         std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value &&
-                         IsIntervalType<IntervalNumberType>::value && !AllAllowCuda<NumberType, IntervalNumberType>::value, IBool>
+                         IsIntervalType<IntervalNumberType>::value && !AllAllowCUDA<NumberType, IntervalNumberType>::value, IBool>
             operator<(const NumberType& n1, const IntervalNumberType& n2)
     {
         return {
@@ -53,7 +53,7 @@ namespace ivarp {
 
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_HD
         std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value &&
-                         IsIntervalType<IntervalNumberType>::value && AllAllowCuda<NumberType, IntervalNumberType>::value, IBool>
+                         IsIntervalType<IntervalNumberType>::value && AllAllowCUDA<NumberType, IntervalNumberType>::value, IBool>
             operator<(const IntervalNumberType& n1, const NumberType& n2) noexcept
     {
         return {
@@ -64,7 +64,7 @@ namespace ivarp {
 
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_H
         std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value &&
-                         IsIntervalType<IntervalNumberType>::value && !AllAllowCuda<NumberType, IntervalNumberType>::value, IBool>
+                         IsIntervalType<IntervalNumberType>::value && !AllAllowCUDA<NumberType, IntervalNumberType>::value, IBool>
             operator<(const IntervalNumberType& n1, const NumberType& n2) noexcept
     {
         return {
@@ -76,7 +76,7 @@ namespace ivarp {
 namespace impl {
     /// Implementation of < when at least one of the intervals has infinity information outside the number type.
     template<typename T1, typename T2, bool ExplicitInfinity1 = T1::has_explicit_infinity,
-             bool ExplicitInfinity2 = T2::has_explicit_infinity, bool CUDA = AllAllowCuda<T1,T2>::value>
+             bool ExplicitInfinity2 = T2::has_explicit_infinity, bool CUDA = AllAllowCUDA<T1,T2>::value>
         struct IntervalLessImpl
     {
         static IBool less(const T1& t1, const T2& t2) noexcept {
@@ -112,7 +112,7 @@ namespace impl {
 
     template<typename IntervalNumberType1, typename IntervalNumberType2> static inline IVARP_HD
         std::enable_if_t<IsIntervalType<IntervalNumberType1>::value &&
-                         IsIntervalType<IntervalNumberType2>::value && AllAllowCuda<IntervalNumberType1,IntervalNumberType2>::value, IBool>
+                         IsIntervalType<IntervalNumberType2>::value && AllAllowCUDA<IntervalNumberType1,IntervalNumberType2>::value, IBool>
             operator<(const IntervalNumberType1& n1, const IntervalNumberType2& n2) noexcept
     {
         return impl::IntervalLessImpl<IntervalNumberType1,IntervalNumberType2>::less(n1, n2);
@@ -120,7 +120,7 @@ namespace impl {
 
     template<typename IntervalNumberType1, typename IntervalNumberType2> static inline IVARP_H
         std::enable_if_t<IsIntervalType<IntervalNumberType1>::value &&
-                         IsIntervalType<IntervalNumberType2>::value && !AllAllowCuda<IntervalNumberType1,IntervalNumberType2>::value, IBool>
+                         IsIntervalType<IntervalNumberType2>::value && !AllAllowCUDA<IntervalNumberType1,IntervalNumberType2>::value, IBool>
             operator<(const IntervalNumberType1& n1, const IntervalNumberType2& n2) noexcept
     {
         return impl::IntervalLessImpl<IntervalNumberType1,IntervalNumberType2>::less(n1, n2);
@@ -128,7 +128,7 @@ namespace impl {
 
     /// Implement the other operators in terms of <.
     template<typename NumberType1, typename NumberType2> static inline IVARP_HD
-        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCuda<NumberType1,NumberType2>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCUDA<NumberType1,NumberType2>::value &&
                          (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator>(const NumberType1& a, const NumberType2& b) noexcept
     {
@@ -136,7 +136,7 @@ namespace impl {
     }
 
     template<typename NumberType1, typename NumberType2> static inline IVARP_H
-        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCuda<NumberType1,NumberType2>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCUDA<NumberType1,NumberType2>::value &&
                          (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator>(const NumberType1& a, const NumberType2& b)
     {
@@ -144,7 +144,7 @@ namespace impl {
     }
 
     template<typename NumberType1, typename NumberType2> static inline IVARP_HD
-    std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCuda<NumberType1,NumberType2>::value &&
+    std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCUDA<NumberType1,NumberType2>::value &&
                      (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator>=(const NumberType1& a, const NumberType2& b) noexcept
     {
@@ -152,7 +152,7 @@ namespace impl {
     }
 
     template<typename NumberType1, typename NumberType2> static inline IVARP_H
-    std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCuda<NumberType1,NumberType2>::value &&
+    std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCUDA<NumberType1,NumberType2>::value &&
                      (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator>=(const NumberType1& a, const NumberType2& b)
     {
@@ -160,7 +160,7 @@ namespace impl {
     }
 
     template<typename NumberType1, typename NumberType2> static inline IVARP_HD
-        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCuda<NumberType1,NumberType2>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCUDA<NumberType1,NumberType2>::value &&
                      (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator<=(const NumberType1& a, const NumberType2& b) noexcept
     {
@@ -168,7 +168,7 @@ namespace impl {
     }
 
     template<typename NumberType1, typename NumberType2> static inline IVARP_H
-        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCuda<NumberType1,NumberType2>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCUDA<NumberType1,NumberType2>::value &&
                      (IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value), IBool>
             operator<=(const NumberType1& a, const NumberType2& b)
     {
@@ -178,7 +178,7 @@ namespace impl {
 namespace impl {
     /// Implementation of interval overlap test if at least one interval type has infinities outside of the number type.
     template<typename T1, typename T2, bool ExplicitInfinity1 = T1::has_explicit_infinity,
-             bool ExplicitInfinity2 = T2::has_explicit_infinity, bool CUDA = AllAllowCuda<T1,T2>::value>
+             bool ExplicitInfinity2 = T2::has_explicit_infinity, bool CUDA = AllAllowCUDA<T1,T2>::value>
         struct IntervalOverlapImpl
     {
         static bool overlap(const T1& a, const T2& b) noexcept {
@@ -202,20 +202,20 @@ namespace impl {
 
     /// Check for overlapping intervals (needed for ==).
     template<typename IntervalType1, typename IntervalType2> static inline IVARP_HD
-        EnableForCudaNTs<bool, IntervalType1, IntervalType2> overlap(const IntervalType1& a, const IntervalType2& b) noexcept
+        EnableForCUDANTs<bool, IntervalType1, IntervalType2> overlap(const IntervalType1& a, const IntervalType2& b) noexcept
     {
         return impl::IntervalOverlapImpl<IntervalType1,IntervalType2>::overlap(a,b);
     }
 
     template<typename IntervalType1, typename IntervalType2> static inline IVARP_H
-        DisableForCudaNTs<bool, IntervalType1, IntervalType2> overlap(const IntervalType1& a, const IntervalType2& b)
+        DisableForCUDANTs<bool, IntervalType1, IntervalType2> overlap(const IntervalType1& a, const IntervalType2& b)
     {
         return impl::IntervalOverlapImpl<IntervalType1,IntervalType2>::overlap(a,b);
     }
 
     /// Equality comparison.
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_HD
-        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && AllAllowCuda<NumberType,IntervalNumberType>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && AllAllowCUDA<NumberType,IntervalNumberType>::value &&
                          IsIntervalType<IntervalNumberType>::value, IBool>
             operator==(const NumberType& a, const IntervalNumberType& b) noexcept
     {
@@ -225,7 +225,7 @@ namespace impl {
         };
     }
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_H
-        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && !AllAllowCuda<NumberType,IntervalNumberType>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && !AllAllowCUDA<NumberType,IntervalNumberType>::value &&
                          IsIntervalType<IntervalNumberType>::value, IBool>
             operator==(const NumberType& a, const IntervalNumberType& b)
     {
@@ -236,14 +236,14 @@ namespace impl {
     }
 
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_HD
-        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && AllAllowCuda<NumberType,IntervalNumberType>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && AllAllowCUDA<NumberType,IntervalNumberType>::value &&
                          IsIntervalType<IntervalNumberType>::value, IBool>
             operator==(const IntervalNumberType& a, const NumberType& b) noexcept
     {
         return b == a;
     }
     template<typename NumberType, typename IntervalNumberType> static inline IVARP_H
-        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && !AllAllowCuda<NumberType,IntervalNumberType>::value &&
+        std::enable_if_t<IsNumberOrInt<NumberType>::value && !IsIntervalType<NumberType>::value && !AllAllowCUDA<NumberType,IntervalNumberType>::value &&
                          IsIntervalType<IntervalNumberType>::value, IBool>
             operator==(const IntervalNumberType& a, const NumberType& b) noexcept
     {
@@ -251,7 +251,7 @@ namespace impl {
     }
 
     template<typename IntervalType1, typename IntervalType2> static inline IVARP_HD
-        std::enable_if_t<IsIntervalType<IntervalType1>::value && IsIntervalType<IntervalType2>::value && AllAllowCuda<IntervalType1,IntervalType2>::value, IBool>
+        std::enable_if_t<IsIntervalType<IntervalType1>::value && IsIntervalType<IntervalType2>::value && AllAllowCUDA<IntervalType1,IntervalType2>::value, IBool>
             operator==(const IntervalType1& a, const IntervalType2& b) noexcept
     {
         return {
@@ -262,7 +262,7 @@ namespace impl {
     }
 
     template<typename IntervalType1, typename IntervalType2> static inline IVARP_H
-        std::enable_if_t<IsIntervalType<IntervalType1>::value && IsIntervalType<IntervalType2>::value && !AllAllowCuda<IntervalType1,IntervalType2>::value, IBool>
+        std::enable_if_t<IsIntervalType<IntervalType1>::value && IsIntervalType<IntervalType2>::value && !AllAllowCUDA<IntervalType1,IntervalType2>::value, IBool>
             operator==(const IntervalType1& a, const IntervalType2& b)
     {
         return {
@@ -275,14 +275,14 @@ namespace impl {
     /// Implementation of != in terms of ==.
     template<typename NumberType1, typename NumberType2> static inline IVARP_HD
         std::enable_if_t<(IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value) &&
-                         IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCuda<NumberType1,NumberType2>::value>
+                         IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && AllAllowCUDA<NumberType1,NumberType2>::value>
             operator!=(const NumberType1& a, const NumberType2& b) noexcept
     {
         return !(a == b);
     }
     template<typename NumberType1, typename NumberType2> static inline IVARP_H
         std::enable_if_t<(IsIntervalType<NumberType1>::value || IsIntervalType<NumberType2>::value) &&
-                         IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCuda<NumberType1,NumberType2>::value>
+                         IsNumberOrInt<NumberType1>::value && IsNumberOrInt<NumberType2>::value && !AllAllowCUDA<NumberType1,NumberType2>::value>
             operator!=(const NumberType1& a, const NumberType2& b)
     {
         return !(a == b);

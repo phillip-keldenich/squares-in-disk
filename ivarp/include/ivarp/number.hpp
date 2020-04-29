@@ -123,9 +123,9 @@ namespace ivarp {
     template<typename NumType> using IsNumber = std::integral_constant<bool,
         NumberTraits<BareType<NumType>>::is_number>;
 
-    template<bool IsNumber, typename NumType> struct IsCudaNumberImpl : std::false_type {};
-    template<typename NumType> struct IsCudaNumberImpl<true, NumType> : std::integral_constant<bool, NumberTraits<NumType>::allows_cuda> {};
-    template<typename NumType> using IsCudaNumber = IsCudaNumberImpl<IsNumber<NumType>::value, NumType>;
+    template<bool IsNumber, typename NumType> struct IsCUDANumberImpl : std::false_type {};
+    template<typename NumType> struct IsCUDANumberImpl<true, NumType> : std::integral_constant<bool, NumberTraits<NumType>::allows_cuda> {};
+    template<typename NumType> using IsCUDANumber = IsCUDANumberImpl<IsNumber<NumType>::value, NumType>;
 
     template<typename T> using IsIntOrRational = std::integral_constant<bool,
             IsIntegral<T>::value || IsRational<T>::value>;

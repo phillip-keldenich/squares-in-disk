@@ -53,7 +53,7 @@ namespace impl {
                               std::enable_if_t<!IsBoundedTagInvokation<Tag,Args...>::value,int> = 0),
         typename Context::NumberType,
         static inline auto invoke_tag(const ArgArray& arg_values, const Args&... args)
-            noexcept(AllowsCuda<typename Context::NumberType>::value)
+            noexcept(AllowsCUDA<typename Context::NumberType>::value)
         {
             return Tag::template eval<Context>((PredicateEvaluateImpl<Context,Args,ArgArray>::eval(args, arg_values))...);
         }
@@ -65,7 +65,7 @@ namespace impl {
                               std::enable_if_t<IsBoundedTagInvokation<Tag,Args...>::value,int> = 0),
         typename Context::NumberType,
         static inline auto invoke_tag(const ArgArray& arg_values, const Args&... args)
-            noexcept(AllowsCuda<typename Context::NumberType>::value)
+            noexcept(AllowsCUDA<typename Context::NumberType>::value)
         {
             return Tag::BoundedEval::template eval<Context, Args...>(
                 (PredicateEvaluateImpl<Context,Args,ArgArray>::eval(args, arg_values))...

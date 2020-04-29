@@ -36,7 +36,7 @@ namespace impl {
         IVARP_SUPPRESS_HD
         IVARP_HD_OVERLOAD_ON_CUDA_NT(CNT,
             static inline CNT eval(const MathConstant<T,LB,UB>& c, const ArgArray&)
-                noexcept(AllowsCuda<CNT>::value)
+                noexcept(AllowsCUDA<CNT>::value)
             {
                 return c.template as<CNT>();
             }
@@ -45,10 +45,10 @@ namespace impl {
 
     /// Handling CUDA-compatible constants.
     template<typename Context, typename ArgArray, std::int64_t LB, std::int64_t UB>
-        struct EvaluateImpl<Context, MathCudaConstant<LB,UB>, ArgArray>
+        struct EvaluateImpl<Context, MathCUDAConstant<LB,UB>, ArgArray>
     {
         static inline IVARP_HD typename Context::NumberType
-            eval(const MathCudaConstant<LB,UB>& c, const ArgArray&) noexcept
+            eval(const MathCUDAConstant<LB,UB>& c, const ArgArray&) noexcept
         {
             return c.template as<typename Context::NumberType>();
         }
@@ -63,7 +63,7 @@ namespace impl {
         using NumberType = typename Context::NumberType;
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static inline NumberType eval(const MathArg<IT>&, const ArgArray& a)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return a[index];
             }
@@ -79,7 +79,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static inline IVARP_HD NumberType eval(const CalledType& c, const ArgArray& a)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return EvaluateImpl<Context, Child, ArgArray>::eval(c.child, a);
             }

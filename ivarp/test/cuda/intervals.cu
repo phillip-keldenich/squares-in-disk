@@ -147,7 +147,7 @@ TEST_CASE_TEMPLATE("[ivarp][number] CUDA test (arithmetic operations), device vs
         run_simple_interval_test<OpSub>(intervals, result);
 		run_simple_interval_test<OpMul>(intervals, result);
 		run_simple_interval_test<OpDiv>(intervals, result);
-    } catch(const CudaError& error) {
+    } catch(const CUDAError& error) {
         std::cerr << "Exception: CUDA error!" << std::endl << error.what() << std::endl;
         throw error;
     }
@@ -174,7 +174,7 @@ TEST_CASE_TEMPLATE("[ivarp][number] CUDA test (sqrt), device vs. host", NT, floa
         }
 
         run_unary_interval_test<OpSqrt>(intervals, result);
-    } catch(const CudaError& error) {
+    } catch(const CUDAError& error) {
         std::cerr << "Exception: CUDA error!" << std::endl << error.what() << std::endl;
         throw error;
     }

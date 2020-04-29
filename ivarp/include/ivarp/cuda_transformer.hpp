@@ -31,14 +31,14 @@
 
 namespace ivarp {
 namespace impl {
-    struct CudaTransformerMetaTag {};
+    struct CUDATransformerMetaTag {};
 }
 
     template<typename T, std::int64_t LB, std::int64_t UB>
-        struct MathMetaFn<impl::CudaTransformerMetaTag, MathConstant<T,LB,UB>>
+        struct MathMetaFn<impl::CUDATransformerMetaTag, MathConstant<T,LB,UB>>
     {
         using OldType = MathConstant<T, LB, UB>;
-        using Type = MathCudaConstant<LB,UB>;
+        using Type = MathCUDAConstant<LB,UB>;
 
         template<typename D>
         static IVARP_H Type apply(const OldType& old, const D*) noexcept {
@@ -47,9 +47,9 @@ namespace impl {
     };
 
     template<typename Arg, std::int64_t LB, std::int64_t UB>
-        struct MathMetaFn<impl::CudaTransformerMetaTag, ConstantFoldedExpr<Arg,LB,UB>>
+        struct MathMetaFn<impl::CUDATransformerMetaTag, ConstantFoldedExpr<Arg,LB,UB>>
     {
-        using Type = MathCudaConstant<LB, UB>;
+        using Type = MathCUDAConstant<LB, UB>;
         using OldType = ConstantFoldedExpr<Arg, LB, UB>;
 
         template<typename D>
@@ -59,7 +59,7 @@ namespace impl {
     };
 
     template<typename Arg, bool LB, bool UB>
-        struct MathMetaFn<impl::CudaTransformerMetaTag, ConstantFoldedPred<Arg,LB,UB>>
+        struct MathMetaFn<impl::CUDATransformerMetaTag, ConstantFoldedPred<Arg,LB,UB>>
     {
         using OldType = ConstantFoldedPred<Arg,LB,UB>;
         using Type = MathBoolConstant<typename OldType::ValueType, LB, UB>;
@@ -72,6 +72,6 @@ namespace impl {
 
     template<typename MathExprOrPred> static inline IVARP_H auto transform_for_cuda(const MathExprOrPred& fn) {
         const auto folded = fold_constants(fn);
-        return apply_metafunction<impl::CudaTransformerMetaTag>(folded);
+        return apply_metafunction<impl::CUDATransformerMetaTag>(folded);
     }
 }

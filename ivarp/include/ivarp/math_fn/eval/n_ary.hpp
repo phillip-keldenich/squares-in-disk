@@ -37,7 +37,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static inline NumberType eval(const CalledType& c, const ArgArray& a)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return do_eval(c, TupleIndexPack<CTArgs>{}, a);
             }
@@ -47,7 +47,7 @@ namespace impl {
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(std::size_t... Indices), NumberType,
             static NumberType
                 do_eval(const CalledType& c, IndexPack<Indices...>, const ArgArray& a)
-                    noexcept(AllowsCuda<NumberType>::value)
+                    noexcept(AllowsCUDA<NumberType>::value)
             {
                 return invoke_tag<Tag, Context>(a, get<Indices>(c.args)...);
             }

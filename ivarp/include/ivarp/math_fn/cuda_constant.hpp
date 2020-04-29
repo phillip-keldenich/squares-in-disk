@@ -27,26 +27,26 @@
 #pragma once
 
 namespace ivarp {
-    struct MathCudaConstant : MathExpressionBase<MathCudaConstant> {
+    struct MathCUDAConstant : MathExpressionBase<MathCUDAConstant> {
         static constexpr bool cuda_supported = true;
 
-        MathCudaConstant() noexcept = default;
+        MathCUDAConstant() noexcept = default;
 
-        template<typename FromType, typename = std::enable_if_t<!std::is_same<BareType<FromType>, MathCudaConstant>::value>>
-                IVARP_H explicit MathCudaConstant(const FromType& from) noexcept :
+        template<typename FromType, typename = std::enable_if_t<!std::is_same<BareType<FromType>, MathCUDAConstant>::value>>
+                IVARP_H explicit MathCUDAConstant(const FromType& from) noexcept :
             ifloat(from.ifloat),
             idouble(from.idouble)
         {}
 
         template<typename T> IVARP_HD T as() const noexcept {
-            static_assert(std::is_same<T, IFloat>::value || std::is_same<T, IDouble>::value, "Wrong type used for MathCudaConstant::as!");
-            return impl::AsImpl<MathCudaConstant, T>::as(*this);
+            static_assert(std::is_same<T, IFloat>::value || std::is_same<T, IDouble>::value, "Wrong type used for MathCUDAConstant::as!");
+            return impl::AsImpl<MathCUDAConstant, T>::as(*this);
         }
 
         IFloat  ifloat;
         IDouble idouble;
     };
 
-    static_assert(std::is_trivial<MathCudaConstant>::value, "MathCudaConstant should be trivial!");
+    static_assert(std::is_trivial<MathCUDAConstant>::value, "MathCUDAConstant should be trivial!");
 }
 

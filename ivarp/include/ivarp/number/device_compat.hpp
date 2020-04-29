@@ -28,11 +28,11 @@
 
 namespace ivarp {
     /// Detection for CUDA-compatible types.
-    template<typename T> struct AllowsCudaImpl : std::false_type {};
+    template<typename T> struct AllowsCUDAImpl : std::false_type {};
     template<typename N> class Interval;
     class IBool;
 
-#define IVARP_BT_AC(t) template<> struct AllowsCudaImpl<t> : std::true_type {}
+#define IVARP_BT_AC(t) template<> struct AllowsCUDAImpl<t> : std::true_type {}
 
     IVARP_BT_AC(char);
     IVARP_BT_AC(unsigned char);
@@ -53,8 +53,8 @@ namespace ivarp {
 
 #undef IVARP_BT_AC
 
-    template<typename T> using AllowsCuda = AllowsCudaImpl<BareType<T>>;
-    template<typename... Args> using AllAllowCuda = AllOf<AllowsCuda<Args>::value...>;
+    template<typename T> using AllowsCUDA = AllowsCUDAImpl<BareType<T>>;
+    template<typename... Args> using AllAllowCUDA = AllOf<AllowsCUDA<Args>::value...>;
 
 #ifdef __CUDA_ARCH__
 #define IVARP_NOCUDA_USE_STD ::

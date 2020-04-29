@@ -56,7 +56,7 @@ template<typename Derived> template<typename Context, typename... Args>
 
 template<typename Derived> template<typename Context, typename ArrayType>
     auto ivarp::MathExpressionBase<Derived>::array_evaluate(const ArrayType &args) const noexcept ->
-        EnableForCudaNT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context, ArrayType>>
+        EnableForCUDANT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context, ArrayType>>
 {
     return impl::EvaluateImpl<Context, Derived, BareType<ArrayType>>::
         eval(static_cast<const Derived&>(*this), args);
@@ -64,7 +64,7 @@ template<typename Derived> template<typename Context, typename ArrayType>
 
 template<typename Derived> template<typename Context, typename ArrayType>
     auto ivarp::MathExpressionBase<Derived>::array_evaluate(const ArrayType &args) const ->
-        DisableForCudaNT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context, ArrayType>>
+        DisableForCUDANT<typename Context::NumberType, impl::ArrayEvaluationCallResultType<Context, ArrayType>>
 {
     return impl::EvaluateImpl<Context, Derived, BareType<ArrayType>>::
         eval(static_cast<const Derived&>(*this), args);

@@ -35,7 +35,6 @@ namespace lemma33_proof1 {
 	const auto h2 = x2;
 	const auto h3 = x3;
 
-	// we have different parameters, so do not reuse lemma 18/19 expressions
 	const auto w1 = w(T_inv(s1), h1);
 	const auto w2 = w(T_inv(s1)-h1, h2);
 	const auto w3 = w(T_inv(s1)-h1-h2, h3);

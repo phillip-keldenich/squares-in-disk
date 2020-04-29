@@ -96,6 +96,29 @@ namespace impl {
         Queue queue;
         Info info;
     };
+
+    template<typename Update, typename Context, typename RBT>
+        static inline PropagationResult do_propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to,
+                                                     const DynamicBoundApplication<RBT, Context>& dba, std::size_t it_limit, std::uint8_t rec_limit)
+    {
+        impl::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
+        return propagator.run(apply_to, it_limit, rec_limit);
+    }
+
+    template<typename Update, typename Context, typename RBT, std::enable_if_t<!std::is_same<Update,IndexPack<>>::value,int> = 0>
+        static inline PropagationResult do_propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to,
+                                                     const DynamicBoundApplication<RBT, Context>& dba, std::size_t it_limit, std::uint8_t rec_limit)
+    {
+        impl::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
+        return propagator.run(apply_to, it_limit, rec_limit);
+    }
+
+    template<typename Update, typename Context, typename RBT, std::enable_if_t<std::is_same<Update,IndexPack<>>::value,int> = 0>
+        static inline PropagationResult do_propagate(const RBT&, typename Context::NumberType*,
+                                                     const DynamicBoundApplication<RBT, Context>&, std::size_t, std::uint8_t)
+    {
+        return PropagationResult{false};
+    }
 }
 
     template<typename BoundEv, typename Context, typename RBT>

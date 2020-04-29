@@ -82,7 +82,7 @@ namespace ivarp {
 
         IVARP_SUPPRESS_HD
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename ResultType), ResultType,
-            ResultType as() const noexcept(AllowsCuda<ResultType>::value) {
+            ResultType as() const noexcept(AllowsCUDA<ResultType>::value) {
                 return constant_as_impl::AsImpl<MathConstant, ResultType>::as(*this);
             }
         )

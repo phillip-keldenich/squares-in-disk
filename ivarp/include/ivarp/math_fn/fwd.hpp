@@ -80,7 +80,7 @@ namespace ivarp {
     template<typename Child, typename BoundsType> struct BoundedMathExpr;
     template<typename Tag_, typename A> struct MathUnary;
     template<typename Tag_, typename A1, typename A2> struct MathBinary;
-    template<std::int64_t LB, std::int64_t UB> struct MathCudaConstant;
+    template<std::int64_t LB, std::int64_t UB> struct MathCUDAConstant;
     template<typename Tag_, typename A1, typename A2, typename A3> struct MathTernary;
     template<typename Index_> struct MathArg;
     template<typename Tag_, typename... Args_> struct MathNAry;

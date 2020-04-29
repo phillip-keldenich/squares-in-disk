@@ -41,7 +41,7 @@ namespace impl {
 
     /// Implementation for constants.
     template<std::int64_t LB, std::int64_t UB>
-        struct HasIntervalConstantsMetaTagImpl<MathCudaConstant<LB,UB>>
+        struct HasIntervalConstantsMetaTagImpl<MathCUDAConstant<LB,UB>>
     {
         using Type = std::true_type;
     };

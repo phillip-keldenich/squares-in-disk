@@ -39,7 +39,7 @@ namespace ivarp {
 
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
             static inline NumberType
-                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCuda<NumberType>::value)
+                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCUDA<NumberType>::value)
             {
                 return a1 + a2;
             }
@@ -59,7 +59,7 @@ namespace ivarp {
 
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
             static inline NumberType
-                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCuda<NumberType>::value)
+                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCUDA<NumberType>::value)
             {
                 return a1 - a2;
             }
@@ -88,7 +88,7 @@ namespace ivarp {
 
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
             static inline NumberType
-                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCuda<NumberType>::value)
+                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCUDA<NumberType>::value)
             {
                 return a1 * a2;
             }
@@ -117,7 +117,7 @@ namespace ivarp {
 
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
             static inline NumberType
-                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCuda<NumberType>::value)
+                eval(const NumberType& a1, const NumberType& a2) noexcept(AllowsCUDA<NumberType>::value)
             {
                 return a1 / a2;
             }

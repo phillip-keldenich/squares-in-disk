@@ -58,6 +58,7 @@ static volatile ivarp::SetRoundDown set_round_on_load; // NOLINT
 
 /**
  * @brief Verify that the rounding mode is set at shared object load time.
+ * Also verifies that flush-to-zero and denormals-are-zero modes are both turned off.
  */
 struct TestRoundOnLoad {
 	TestRoundOnLoad() {
@@ -73,6 +74,21 @@ struct TestRoundOnLoad {
 		float fup = -opacify(opacify(-1.1f) * opacify(10.1f));
 		if (fdn >= fup) {
 			throw std::runtime_error("Could not verify rounding mode behaves correctly for floats!"); // LCOV_EXCL_LINE
+		}
+
+		static_assert(std::numeric_limits<float>::has_denorm != std::denorm_absent, "The platform we are compiling for does not look like x86!");
+		static_assert(std::numeric_limits<double>::has_denorm != std::denorm_absent, "The platform we are compiling for does not look like x86!");
+		volatile float fden = std::numeric_limits<float>::denorm_min();
+		volatile float fmn = std::numeric_limits<float>::min();
+		volatile double dden = std::numeric_limits<double>::denorm_min();
+		volatile double dmn = std::numeric_limits<double>::min();
+
+		if(fden <= 0.0f || fden + fden <= 0.0f || fden != fden || dden <= 0.0 || dden + dden <= 0.0 || dden != dden || fmn / 2.0f <= fden || dmn / 2.0 <= dden) {
+			throw std::runtime_error("Subnormal floating point values are either flushed to zero or treated as zero!");
+		}
+
+		if(fden == fmn || dden == dmn) {
+			throw std::runtime_error("Subnormal values do not seem to exist!");
 		}
 	}
 };

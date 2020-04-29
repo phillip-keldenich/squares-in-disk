@@ -38,13 +38,13 @@ namespace ivarp {
         };
 
         template<typename Context, typename NumberType>
-            static IVARP_HD inline EnableForCudaNT<NumberType,NumberType> eval(const NumberType& n) noexcept
+            static IVARP_HD inline EnableForCUDANT<NumberType,NumberType> eval(const NumberType& n) noexcept
         {
             return -n;
         }
 
         template<typename Context, typename NumberType>
-            static IVARP_H inline DisableForCudaNT<NumberType,NumberType> eval(const NumberType& n) noexcept
+            static IVARP_H inline DisableForCUDANT<NumberType,NumberType> eval(const NumberType& n) noexcept
         {
             return -n;
         }

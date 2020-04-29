@@ -40,8 +40,8 @@ namespace impl {
             return static_cast<OldType&&>(old);
         }
     };
-    template<std::int64_t LB, std::int64_t UB, typename ArgBounds> struct BoundAndSimplify<MathCudaConstant<LB,UB>, ArgBounds, void> {
-        using OldType = MathCudaConstant<LB,UB>;
+    template<std::int64_t LB, std::int64_t UB, typename ArgBounds> struct BoundAndSimplify<MathCUDAConstant<LB,UB>, ArgBounds, void> {
+        using OldType = MathCUDAConstant<LB,UB>;
         static inline IVARP_H auto apply(OldType&& old) noexcept {
             return static_cast<OldType&&>(old);
         }

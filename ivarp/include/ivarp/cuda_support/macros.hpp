@@ -129,7 +129,7 @@
  * in order to only enable it by SFINAE if the given \a NumberType supports CUDA.
  */
 #define IVARP_ENABLE_FOR_CUDA_NT(NumberType)\
-    typename NT = NumberType, std::enable_if_t<AllowsCuda<NT>::value, int> = 0
+    typename NT = NumberType, std::enable_if_t<AllowsCUDA<NT>::value, int> = 0
 
  /**
  * \def IVARP_DISABLE_FOR_CUDA_NT(NumberType)
@@ -138,7 +138,7 @@
  * in order to disable it by SFINAE if the given \a NumberType supports CUDA.
  */
 #define IVARP_DISABLE_FOR_CUDA_NT(NumberType)\
-    typename NT = NumberType, std::enable_if_t<!AllowsCuda<NT>::value, int> = 0
+    typename NT = NumberType, std::enable_if_t<!AllowsCUDA<NT>::value, int> = 0
 
 /// Create two overloaded definitions of essentially the same function template;
 /// the only difference is whether CUDA is supported. CUDA support depends on the given NumberType.

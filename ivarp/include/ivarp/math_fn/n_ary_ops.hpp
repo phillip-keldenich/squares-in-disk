@@ -38,32 +38,32 @@ namespace ivarp {
             return "min";
         }
 
-        template<typename Context> IVARP_HD static EnableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1) noexcept {
+        template<typename Context> IVARP_HD static EnableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1) noexcept {
             return a1;
         }
-        template<typename Context, typename A1> IVARP_H static DisableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1) {
+        template<typename Context, typename A1> IVARP_H static DisableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1) {
             return ivarp::forward<A1>(a1);
         }
 
         template<typename Context> static IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1, typename Context::NumberType a2) noexcept
+            EnableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1, typename Context::NumberType a2) noexcept
         {
             return minimum(a1, a2);
         }
 
-        template<typename Context, typename A1, typename A2> static IVARP_H DisableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1, A2&& a2)
+        template<typename Context, typename A1, typename A2> static IVARP_H DisableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1, A2&& a2)
         {
             return minimum(ivarp::forward<A1>(a1), ivarp::forward<A2>(a2));
         }
 
         template<typename Context, typename A1, typename A2, typename A3, typename... Args>
-            static IVARP_HD EnableForCudaNT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args) noexcept
+            static IVARP_HD EnableForCUDANT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args) noexcept
         {
             return eval<Context>(ivarp::forward<A1>(a1), eval<Context>(ivarp::forward<A2>(a2), ivarp::forward<A3>(a3), ivarp::forward<Args>(args)...));
         }
 
         template<typename Context, typename A1, typename A2, typename A3, typename... Args>
-            static IVARP_H DisableForCudaNT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args)
+            static IVARP_H DisableForCUDANT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args)
         {
             return eval<Context>(ivarp::forward<A1>(a1), eval<Context>(ivarp::forward<A2>(a2), ivarp::forward<A3>(a3), ivarp::forward<Args>(args)...));
         }
@@ -81,32 +81,32 @@ namespace ivarp {
             return "max";
         }
 
-        template<typename Context> IVARP_HD static EnableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1) noexcept {
+        template<typename Context> IVARP_HD static EnableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1) noexcept {
             return a1;
         }
-        template<typename Context, typename A1> IVARP_H static DisableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1) {
+        template<typename Context, typename A1> IVARP_H static DisableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1) {
             return ivarp::forward<A1>(a1);
         }
 
         template<typename Context> static IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1, typename Context::NumberType a2) noexcept
+            EnableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(typename Context::NumberType a1, typename Context::NumberType a2) noexcept
         {
             return maximum(a1, a2);
         }
 
-        template<typename Context, typename A1, typename A2> static IVARP_H DisableForCudaNT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1, A2&& a2)
+        template<typename Context, typename A1, typename A2> static IVARP_H DisableForCUDANT<typename Context::NumberType, typename Context::NumberType> eval(A1&& a1, A2&& a2)
         {
             return maximum(ivarp::forward<A1>(a1), ivarp::forward<A2>(a2));
         }
 
         template<typename Context, typename A1, typename A2, typename A3, typename... Args>
-            static IVARP_HD EnableForCudaNT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args) noexcept
+            static IVARP_HD EnableForCUDANT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args) noexcept
         {
             return eval<Context>(ivarp::forward<A1>(a1), eval<Context>(ivarp::forward<A2>(a2), ivarp::forward<A3>(a3), ivarp::forward<Args>(args)...));
         }
 
         template<typename Context, typename A1, typename A2, typename A3, typename... Args>
-            static IVARP_H DisableForCudaNT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args)
+            static IVARP_H DisableForCUDANT<typename Context::NumberType,typename Context::NumberType> eval(A1&& a1, A2&& a2, A3&& a3, Args&&... args)
         {
             return eval<Context>(ivarp::forward<A1>(a1), eval<Context>(ivarp::forward<A2>(a2), ivarp::forward<A3>(a3), ivarp::forward<Args>(args)...));
         }

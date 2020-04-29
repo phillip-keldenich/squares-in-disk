@@ -29,9 +29,9 @@ namespace ivarp {
     /// A unary tag implementing fixed non-negative integral powers, i.e., x ** u for some constant unsigned u.
     template<unsigned P> struct MathFixedPowTag {
         template<typename Context, typename NumberType>
-        IVARP_HD static inline EnableForCudaNT<NumberType,NumberType> eval(const NumberType& n) noexcept;
+        IVARP_HD static inline EnableForCUDANT<NumberType,NumberType> eval(const NumberType& n) noexcept;
         template<typename Context, typename NumberType>
-        IVARP_H static inline DisableForCudaNT<NumberType,NumberType> eval(const NumberType& n);
+        IVARP_H static inline DisableForCUDANT<NumberType,NumberType> eval(const NumberType& n);
 
         struct EvalBounds {
             template<typename B1> struct Eval {
@@ -209,13 +209,13 @@ namespace ivarp {
     }
 
     template<unsigned P> template<typename Context, typename NumberType>
-        inline EnableForCudaNT<NumberType,NumberType> MathFixedPowTag<P>::eval(const NumberType& n) noexcept
+        inline EnableForCUDANT<NumberType,NumberType> MathFixedPowTag<P>::eval(const NumberType& n) noexcept
     {
         return fixed_pow<P>(n);
     }
 
     template<unsigned P> template<typename Context, typename NumberType>
-        inline DisableForCudaNT<NumberType,NumberType> MathFixedPowTag<P>::eval(const NumberType& n)
+        inline DisableForCUDANT<NumberType,NumberType> MathFixedPowTag<P>::eval(const NumberType& n)
     {
         return fixed_pow<P>(n);
     }

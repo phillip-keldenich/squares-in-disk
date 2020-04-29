@@ -177,10 +177,13 @@ namespace cuda {
         std::unique_ptr<T[], CUDAFreeDeleter> mem_on_device;
 
         IVARP_H static T* alloc_device_ptr(std::size_t length) {
+            std::size_t bytes = length * sizeof(T);
             void* ptr;
-            auto errcode = cudaMalloc(&ptr, length * sizeof(T));
+            auto errcode = cudaMalloc(&ptr, bytes);
             if(errcode != cudaSuccess) {
-                throw CudaError("Could not allocate device memory", errcode);
+                std::ostringstream ostr;
+                ostr << "Could not allocate " << bytes << " bytes of device memory";
+                throw CUDAError(ostr.str(), errcode);
             }
             return static_cast<T*>(ptr);
         }

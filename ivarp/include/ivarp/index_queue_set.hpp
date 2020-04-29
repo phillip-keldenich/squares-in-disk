@@ -99,4 +99,18 @@ namespace ivarp {
         std::size_t m_elements[NumIndices];
         bool m_present[NumIndices];
     };
-}
+
+    /**
+     * This specialization is mainly there to get rid of crazy warnings with CUDA.
+     */
+    template<> class IndexQueueSet<0> {
+	public:
+        template<std::size_t... Elements> void enqueue_all(IndexPack<Elements...>) {}
+        template<typename ForwardIt> void enqueue_range(ForwardIt begin, ForwardIt end) {}
+        bool empty() const noexcept { return true; }
+        std::size_t size() const noexcept { return 0; }
+        bool enqueue(std::size_t element) noexcept { return false; }
+        std::size_t dequeue() noexcept { return 0; }
+        bool is_present(std::size_t) { return false; }
+    };
+};

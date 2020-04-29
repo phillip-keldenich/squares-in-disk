@@ -34,9 +34,9 @@
 #include <iostream>
 
 namespace ivarp {
-    class CudaError : public std::exception {
+    class CUDAError : public std::exception {
     public:
-        explicit CudaError(const std::string& msg, cudaError_t errcode) : error_code(errcode) {
+        explicit CUDAError(const std::string& msg, cudaError_t errcode) : error_code(errcode) {
             std::ostringstream out;
             out << msg << ": " << cudaGetErrorName(errcode) << " (code " << static_cast<int>(error_code) << ')'
                 << " - " << cudaGetErrorString(errcode);
@@ -59,7 +59,7 @@ namespace ivarp {
     static inline void throw_if_cuda_error(const std::string& msg, cudaError_t error_code) {
         if(error_code != cudaSuccess) {
             cudaGetLastError();
-            throw CudaError(msg, error_code);
+            throw CUDAError(msg, error_code);
         }
     }
 

@@ -112,13 +112,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::GEQ;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 <= v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 <= v2;
         }
@@ -146,13 +146,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::GEQ;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 < v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 < v2;
         }
@@ -179,13 +179,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::LEQ;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 >= v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 >= v2;
         }
@@ -213,13 +213,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::LEQ;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 > v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 > v2;
         }
@@ -246,13 +246,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::BOTH;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 == v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 == v2;
         }
@@ -279,13 +279,13 @@ namespace ivarp {
         static constexpr BoundDirection rhs_bound_direction = BoundDirection::NONE;
 
         template<typename Context, typename V1, typename V2> static inline IVARP_HD
-            EnableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
+            EnableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2) noexcept
         {
             return v1 != v2;
         }
 
         template<typename Context, typename V1, typename V2> static inline IVARP_H
-            DisableForCudaNT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
+            DisableForCUDANT<typename Context::NumberType, impl::PredicateEvalResultType<Context>> eval(const V1& v1, const V2& v2)
         {
             return v1 != v2;
         }

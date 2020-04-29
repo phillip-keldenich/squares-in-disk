@@ -102,7 +102,7 @@ TEST_CASE("[ivarp][cuda support] Tuple offsets host vs. device") {
 		for(int i = 0; i < 7; ++i) {
 			REQUIRE(out_offsets[i] == exp_offsets[i]);
 		}
-	} catch(const CudaError& error) {
+	} catch(const CUDAError& error) {
         std::cerr << "Exception: CUDA error!" << std::endl << error.what() << std::endl;
         throw error;
     }
@@ -133,7 +133,7 @@ TEST_CASE("[ivarp][cuda support] Tuple copy host to device") {
         for(int i = 0; i < num_values+1; ++i) {
             REQUIRE(out[i] == 1);
         }
-    } catch(const CudaError& error) {
+    } catch(const CUDAError& error) {
         std::cerr << "Exception: CUDA error!" << std::endl << error.what() << std::endl;
         throw error;
     }
@@ -154,7 +154,7 @@ TEST_CASE("[ivarp][cuda support] Tuple copy device to host") {
             REQUIRE(get<1>(t) == (i % 2 == 0));
             REQUIRE_SAME(get<2>(t), IDouble(-0.25*i, 0.75*i));
         }
-    } catch(const CudaError& error) {
+    } catch(const CUDAError& error) {
         std::cerr << "Exception: CUDA error!" << std::endl << error.what() << std::endl;
         throw error;
     }

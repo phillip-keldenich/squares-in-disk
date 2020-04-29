@@ -49,7 +49,7 @@ namespace impl {
     // compute the lower bound of an interval division result lbnum/lbden, possibly involving infinities.
     IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename NumberType), NumberType,
         static inline void ia_div_lb(Interval<NumberType>& result, const WithInfSign<NumberType>& lbnum,
-                                     const WithInfSign<NumberType>& lbden) noexcept(AllowsCuda<NumberType>::value)
+                                     const WithInfSign<NumberType>& lbden) noexcept(AllowsCUDA<NumberType>::value)
         {
             if(!lbnum.inf_sign && !lbden.inf_sign) {
                 // the lower bound does not involve infinities.
@@ -66,7 +66,7 @@ namespace impl {
     // compute the upper bound of an interval division result ubnum/ubden, possibly involving infinities.
     IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename NumberType), NumberType,
         static inline void ia_div_ub(Interval<NumberType>& result, const WithInfSign<NumberType>& ubnum,
-                                     const WithInfSign<NumberType>& ubden) noexcept(AllowsCuda<NumberType>::value)
+                                     const WithInfSign<NumberType>& ubden) noexcept(AllowsCUDA<NumberType>::value)
         {
             if(!ubnum.inf_sign && !ubden.inf_sign) {
                 // the upper bound does not involve infinities.
@@ -84,7 +84,7 @@ namespace impl {
         static inline Interval<NumberType>
             ia_div(const WithInfSign<NumberType>& lbnum, const WithInfSign<NumberType>& lbden,
                    const WithInfSign<NumberType>& ubnum, const WithInfSign<NumberType>& ubden)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
         {
             Interval<NumberType> result;
             ia_div_lb(result, lbnum, lbden);
@@ -113,7 +113,7 @@ namespace impl {
     // handle a potential division by zero (mark as possibly undefined, but also provide a result interval).
     IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename NumberType), NumberType,
         static void divide_by_zero(Interval<NumberType>& num, const Interval<NumberType>& den, int sgn_num_lb,
-                                   int sgn_num_ub, int sgn_den_sum) noexcept(AllowsCuda<NumberType>::value)
+                                   int sgn_num_ub, int sgn_den_sum) noexcept(AllowsCUDA<NumberType>::value)
         {
             num.set_undefined(true);
             if(sgn_den_sum == 0 || sgn_num_ub - sgn_num_lb == 2) {
@@ -152,7 +152,7 @@ namespace impl {
     // do interval division where some of the bounds may be infinite (slower than the finite version)
     IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(typename NumberType), NumberType,
         static inline void divide_by_infinite(Interval<NumberType>& num, const Interval<NumberType>& den)
-            noexcept(AllowsCuda<NumberType>::value)
+            noexcept(AllowsCUDA<NumberType>::value)
         {
             // combine undefinedness flags
             num.set_undefined(num.possibly_undefined() | den.possibly_undefined());
@@ -278,7 +278,7 @@ namespace impl {
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
             static inline NumberType eval(NumberType x1, const NumberType& x2)
-                noexcept(AllowsCuda<InnerType>::value)
+                noexcept(AllowsCUDA<InnerType>::value)
             {
                 impl::ia_div<InnerType, Bounds1, Bounds2>(x1, x2);
                 return x1;

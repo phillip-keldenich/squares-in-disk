@@ -46,16 +46,8 @@ namespace impl {
             s.cuda_device_ids = viable_cuda_device_ids();
         }
 
-        if (!s.cuda_device_ids.empty()) {
-            s.thread_count = static_cast<int>(s.cuda_device_ids.size());
-        }
-
         if (s.thread_count <= 0) {
-            if (s.cuda_device_ids.empty()) {
-                s.thread_count = static_cast<int>(std::thread::hardware_concurrency());
-            } else {
-                s.thread_count = static_cast<int>(s.cuda_device_ids.size());
-            }
+            s.thread_count = static_cast<int>(std::thread::hardware_concurrency());
         }
 
         return s;

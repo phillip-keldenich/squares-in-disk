@@ -72,9 +72,9 @@ namespace ivarp {
         }
     };
 
-    template<typename MetaFnTag, std::int64_t LB, std::int64_t UB> struct MathMetaFn<MetaFnTag, MathCudaConstant<LB,UB>>
+    template<typename MetaFnTag, std::int64_t LB, std::int64_t UB> struct MathMetaFn<MetaFnTag, MathCUDAConstant<LB,UB>>
     {
-        using OldType = MathCudaConstant<LB,UB>;
+        using OldType = MathCUDAConstant<LB,UB>;
 
         template<typename Data>
         static IVARP_H OldType apply(const OldType& t, const Data*) noexcept {

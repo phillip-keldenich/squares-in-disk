@@ -45,8 +45,8 @@ namespace impl {
             return m;
         }
     };
-    template<std::int64_t LB, std::int64_t UB> struct ConstantFoldingApplyImpl<MathCudaConstant<LB,UB>,true> {
-        using Type = MathCudaConstant<LB,UB>;
+    template<std::int64_t LB, std::int64_t UB> struct ConstantFoldingApplyImpl<MathCUDAConstant<LB,UB>,true> {
+        using Type = MathCUDAConstant<LB,UB>;
         static const Type& apply(const Type& m) noexcept {
             return m;
         }

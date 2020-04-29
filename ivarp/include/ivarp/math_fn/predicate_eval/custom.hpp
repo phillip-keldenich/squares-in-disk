@@ -36,7 +36,7 @@ namespace impl {
         using NumberType = typename Context::NumberType;
 
         IVARP_HD_OVERLOAD_ON_CUDA_NT(NumberType,
-            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCuda<NumberType>::value) {
+            static inline auto eval(const CalledType& c, const ArgArray& args) noexcept(AllowsCUDA<NumberType>::value) {
                 return do_eval(c, args, IndexRange<0,sizeof...(Args_)>{});
             }
         )
@@ -44,7 +44,7 @@ namespace impl {
     private:
         IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(IVARP_TEMPLATE_PARAMS(std::size_t... Inds), NumberType,
             static inline auto do_eval(const CalledType& c, const ArgArray& args)
-                noexcept(AllowsCuda<NumberType>::value)
+                noexcept(AllowsCUDA<NumberType>::value)
             {
                 return c.functor.template eval<Context>(
                     (PredicateEvaluateImpl<Context, TupleElementType<Inds, ArgsType>, ArgArray>::eval(
