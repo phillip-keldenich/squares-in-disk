@@ -21,33 +21,20 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 29.11.19.
+// Created by Phillip Keldenich on 26.06.2020.
 //
 
 #pragma once
 
-namespace lemma30 {
-    using namespace ivarp;
+#include "B2.hpp"
+#include "B3.hpp"
 
-    const auto s1 = args::x0;
-    const auto rx_2sq2 = (1_Z / (2_Z*sqrt(ensure_expr(2_Z)))) * r(s1);
-    const auto l1 = sqrt(1_Z - square(T_inv(s1))) - 0.5_X * s1;
-    const auto s1d = variable(s1, "s_1", 0.295_X, sqrt(ensure_expr(1.6_X)));
+namespace B_functions {
+	using aux_functions::Y;
 
-    namespace proof1 {
-        const auto case1 = square(0.5_X * s1 + r(s1) + rx_2sq2) + square(T_inv(s1) + rx_2sq2);
-        const auto case2 = square(0.5_X * s1 + rx_2sq2) + square(T_inv(s1) + r(s1) + rx_2sq2);
-        const auto D = if_then_else(s1 <= l1, case1, case2);
-        const auto system = constraint_system(s1d, D > 1_Z);
-        const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128,8)>>(system);
-    }
-
-    namespace proof2 {
-        const auto a = ensure_expr(0.645_X);
-        const auto case1 = square(0.5_X * s1 + 2_Z * a * r(s1)) + square(a * r(s1) + T_inv(s1));
-        const auto case2 = square(0.5_X * s1 + a * r(s1)) + square(T_inv(s1) + 2_Z*a*r(s1));
-        const auto D = if_then_else(s1 <= l1, case1, case2);
-        const auto system = constraint_system(s1d, D > 1_Z);
-        const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128,8)>>(system);
-    }
+	static const auto B_4/*(a,h_i,w_i,h_{i+1})*/ = if_then_else(x2 <= 2_Z * x1,
+		square(x1) + minimum(square(maximum(ensure_expr(0_Z), Y)), 2_Z * square(x3)),
+		maximum(B_2(x1,x2,x3), B_3)
+	);
 }
+

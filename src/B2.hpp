@@ -21,20 +21,17 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 03.12.19.
+// Created by Phillip Keldenich on 26.06.2020.
 //
 
-#include "auxiliary_functions.hpp"
-#include "proof_auxiliaries.hpp"
-#include "lemma30.hpp"
+#pragma once
 
-void run_lemma30() {
-    const auto printer1 = ivarp::critical_printer(std::cerr, lemma30::proof1::system,
-                                                  printable_expression("D", lemma30::proof1::D));
+#include "B1.hpp"
 
-    run_proof("Lemma 30, statement (1)", lemma30::proof1::input, lemma30::proof1::system, printer1);
-
-    const auto printer2 = ivarp::critical_printer(std::cerr, lemma30::proof2::system,
-                                                  printable_expression("D", lemma30::proof2::D));
-    run_proof("Lemma 30, statement (2)", lemma30::proof2::input, lemma30::proof2::system, printer2);
+namespace B_functions {
+	static const auto B_2/*(h_i, w_i, h_{i+1})*/ = if_then_else(
+		x1 < x0 + x2, square(x0),
+		if_then_else(x1 <= 2_Z * x0, square(x0) + square(x2), B_1(x0,x1,x2))
+	);
 }
+ 

@@ -21,29 +21,19 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 25.11.19.
+// Created by Phillip Keldenich on 26.06.2020.
 //
 
 #pragma once
 
-namespace lemma31_proof2 {
-    using namespace ivarp;
-    using namespace ivarp::args;
-    using lemma31_proof1::s1;
-    using lemma31_proof1::h1;
-    using lemma31_proof1::w1;
-    const auto sn = x2;
-    using lemma31_proof1::z;
-    using lemma31_proof1::T_in;
+#include "XY.hpp"
 
-    const auto S = square(s1) + square(sn) + square(h1);
-    const auto Y1 = Y(T_in(s1), h1, w1, sn);
-    const auto s1d = variable(s1, "s_1", 0.295_X, 1.3_X);
-    const auto h1d = variable(h1, "h_1", 0_Z, 1.3_X);
-    const auto snd = variable(sn, "s_n", r(s1), 1.3_X);
-    const auto system = constraint_system(s1d, h1d, snd,
-        S <= 1.6_X, z <= sn, z <= h1, z <= s1, sn <= h1, sn <= s1,
-        h1 <= s1, sn >= r(s1), Y1 <= 0_Z, h1 <= 1_Z + T_in(s1));
-    using VarSplit = U64Pack<dynamic_subdivision(64, 8), dynamic_subdivision(64, 4), 128>;
-    const auto input = prover_input<CTX, VarSplit>(system);
+namespace B_functions {
+	using aux_functions::Y;
+	using namespace ivarp;
+	using namespace ivarp::args;
+
+	static const auto B_3/*(a,h_i,w_i,h_{i+1})*/ = 
+		square(x1) + maximum(Y * x3, minimum(square(Y), 2_Z * square(x3)));
 }
+

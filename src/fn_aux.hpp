@@ -21,34 +21,32 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 03.12.19.
+// Created by Phillip Keldenich on 26.06.2020.
 //
 
 #pragma once
-#include <iostream>
-#include <sstream>
-#include <ivarp/run_prover.hpp>
-#include <ivarp/critical_printer.hpp>
-#include <ivarp/progress_printer.hpp>
 
-struct ProofError : std::logic_error {
-    explicit ProofError(const std::string& name) :
-        std::logic_error("Error: Proof '" + name + "' returned with critical hypercuboids!")
-    {}
-};
+#include <ivarp/math_fn.hpp>
 
-template<typename ProverInputType, typename ConstraintSystemType, typename Handler> static inline void
-    run_proof(const std::string& name, const ProverInputType& p, const ConstraintSystemType& c, const Handler& h)
-{
-    std::cout << "Starting proof " << name << "..." << std::endl;
-    ivarp::ProofInformation info;
-    ivarp::ProgressPrinter printer(std::cout, 3, &c);
-    ivarp::ProverSettings settings;
-	settings.max_iterations_per_node = 1;
-    if(!run_prover(p, h, &info, settings, printer)) {
-        throw ProofError(name);
-    }
-    std::cout << "Done: " << info.num_cuboids << " cuboids considered (" << info.num_leaf_cuboids << " leafs)."
-              << std::endl;
+namespace aux_functions {
+	using namespace ivarp;
+	using namespace ivarp::args;
+
+	static const auto T/*(u)*/ =
+		(2_Z / sqrt(ensure_expr(5_Z))) * sqrt(maximum(0_Z, 1_Z - square(x0)/5_Z)) - 0.8_X * x0;
+
+    static const auto T_inv/*(s)*/ =
+		sqrt(maximum(1_Z - 0.25_X * square(x0), 0_Z)) - x0;
+
+	static const auto w/*(y_t,h)*/ =
+		2_Z * sqrt(maximum(0_Z, minimum(1_Z - square(x0), 1_Z - square(x0-x1))));
+
+	static const auto sigma/*(s_1)*/ = 
+		0.25_X * (-x0 - 2_Z*T_inv(x0) + sqrt(8_Z - square(x0 - 2_Z*T_inv(x0))));
+
+	// this is a shorthand for {0 if s_n > sigma else 0.83sigma^2}
+	static const auto last_square/*(s1,sn)*/ = if_then_else(
+		sigma(x0) >= x1, 0.83_X * square(sigma(x0)), ensure_expr(0_Z)
+	);
 }
 

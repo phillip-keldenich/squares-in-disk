@@ -20,28 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 //
-// Created by Phillip Keldenich on 26.11.19.
+// Created by Phillip Keldenich on 29.11.19.
 //
 
 #pragma once
 
-namespace lemma31_proof4 {
+namespace top_packing {
     using namespace ivarp;
-    using namespace ivarp::args;
-    using lemma31_proof3::Y1;
-    using lemma31_proof3::z;
 
-    const auto s1 = x0;
-    const auto h1 = x1;
-    const auto sn = x2;
+    const auto s1 = args::x0;
+    const auto rx_2sq2 = (1_Z / (2_Z*sqrt(ensure_expr(2_Z)))) * r(s1);
+    const auto l1 = sqrt(1_Z - square(T_inv(s1))) - 0.5_X * s1;
+    const auto s1d = variable(s1, "s_1", 0.295_X, sqrt(ensure_expr(1.6_X)));
 
-    const auto S = square(s1) + square(sn) + square(h1) + square(Y1);
-    const auto s1d = variable(s1, "s_1", 0.295_X, 1_Z / sqrt(ensure_expr(2_Z)));
-    const auto h1d = variable(h1, "h_1", 0_Z, s1);
-    const auto snd = variable(sn, "s_n", 0_Z, h1);
-    const auto system = constraint_system(s1d, h1d, snd,
-                                          S <= 1.56_X, z <= sn, z <= h1, z <= s1, sn >= r(s1), sn <= Y1, Y1 <= h1);
-    const auto input = prover_input<CTX, lemma31_proof2::VarSplit>(system);
+    namespace proof1 {
+        const auto case1 = square(0.5_X * s1 + r(s1) + rx_2sq2) + square(T_inv(s1) + rx_2sq2);
+        const auto case2 = square(0.5_X * s1 + rx_2sq2) + square(T_inv(s1) + r(s1) + rx_2sq2);
+        const auto D = if_then_else(s1 <= l1, case1, case2);
+        const auto system = constraint_system(s1d, D > 1_Z);
+        const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128,8)>>(system);
+    }
+
+    namespace proof2 {
+        const auto a = ensure_expr(0.645_X);
+        const auto case1 = square(0.5_X * s1 + 2_Z * a * r(s1)) + square(a * r(s1) + T_inv(s1));
+        const auto case2 = square(0.5_X * s1 + a * r(s1)) + square(T_inv(s1) + 2_Z*a*r(s1));
+        const auto D = if_then_else(s1 <= l1, case1, case2);
+        const auto system = constraint_system(s1d, D > 1_Z);
+        const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128,8)>>(system);
+    }
 }
+

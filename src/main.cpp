@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-extern void run_lemma30();
-extern void run_lemma31();
+extern void run_top_packing();
+extern void run_one_subcontainer();
 extern void run_lemma32();
 extern void run_lemma33();
 extern void run_lemma34();
 extern void run_lemma35();
 
 int main() {
-    run_lemma30();
-    run_lemma31();
+    run_top_packing();
+    run_one_subcontainer();
     run_lemma32();
     run_lemma33();
     run_lemma34();

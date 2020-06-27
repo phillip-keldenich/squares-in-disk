@@ -21,24 +21,21 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 25.11.19.
+// Created by Phillip Keldenich on 03.12.19.
 //
 
-#pragma once
+#include "auxiliary_functions.hpp"
+#include "proof_auxiliaries.hpp"
+#include "top_packing.hpp"
 
-namespace lemma31_proof1 {
-    using namespace ivarp;
-    using namespace ivarp::args;
+void run_top_packing() {
+    const auto printer1 = ivarp::critical_printer(std::cerr, top_packing::proof1::system,
+                                                  printable_expression("D", top_packing::proof1::D));
 
-    const auto s1 = x0;
-    const auto h1 = x1;
-    const auto T_in = sqrt(1_Z - 0.25_X * square(x0)) - x0;
+    run_proof("Top Packing Lemma, statement (1)", top_packing::proof1::input, top_packing::proof1::system, printer1);
 
-    const auto z = T(-T_in(s1) + h1);
-    const auto w1 = w(T_in(s1),h1);
-    const auto S = square(s1) + A_11(h1, w1, z) + square(z) + 0.83_X * square(r(s1));
-
-    const auto system = constraint_system(variable(s1, "s_1", 0.295_X, 1.3_X), variable(h1, "h_1", 0_Z, 1.3_X),
-                                          S <= 1.6_X, s1 >= h1, s1 >= z, h1 >= z, z >= 0_Z, h1 <= T_in(s1) + 1_Z);
-    const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128, 8), 16384>>(system);
+    const auto printer2 = ivarp::critical_printer(std::cerr, top_packing::proof2::system,
+                                                  printable_expression("D", top_packing::proof2::D));
+    run_proof("Top Packing Lemma, statement (2)", top_packing::proof2::input, top_packing::proof2::system, printer2);
 }
+

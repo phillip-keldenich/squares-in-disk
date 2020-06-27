@@ -20,24 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 //
-// Created by Phillip Keldenich on 26.11.19.
+// Created by Phillip Keldenich on 26.06.2020.
 //
 
 #pragma once
 
-namespace lemma31_proof5 {
-    using namespace ivarp;
-    using namespace ivarp::impl;
-    using lemma31_proof1::z;
+#include "fn_aux.hpp"
 
-    const auto s1 = x0;
-    const auto h1 = x1;
-    const auto S = square(s1) + square(h1) + 3 * square(maximum(r(s1), z));
-    using VarSplit = U64Pack<dynamic_subdivision(128, 8), 128>;
-    const auto s1d = variable(s1, "s_1", 0.295_X, 1.3_X);
-    const auto h1d = variable(h1, "h_1", 0_Z, s1);
-    const auto system = constraint_system(s1d, h1d, S <= 1.6_X, z <= h1, z <= s1, h1 <= s1);
-    const auto input = prover_input<CTX, VarSplit>(system);
+namespace aux_functions {
+	static const auto X/*(a_i,b_i,u)*/ = if_then_else(
+        x1 >= 0_Z,
+        sqrt(1_Z - square(x1 + x2)) - x2,
+        if_then_else(
+            x0 < 0_Z,
+            sqrt(maximum(0_Z, 1_Z - square(x0 + x2))) - x2,
+            if_then_else(
+                x2 <= 2_Z * minimum(x0,-x1),
+                T_inv(x2),
+                sqrt(maximum(0_Z, 1_Z - square(x2 - minimum(x0,-x1)))) - x2
+            )
+        )
+    );
+
+	static const auto Y/*(a,h_i,w_i,h_{i+1})*/ = 0.5_X * x2 - x1 + X(x0, x0 - x1, x3);
 }
+
