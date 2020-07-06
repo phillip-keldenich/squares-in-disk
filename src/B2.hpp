@@ -31,7 +31,7 @@
 namespace B_functions {
 	static const auto B_2/*(h_i, w_i, h_{i+1})*/ = if_then_else(
 		x1 < x0 + x2, square(x0),
-		if_then_else(x1 <= 2_Z * x0, square(x0) + square(x2), B_1(x0,x1,x2))
+		if_then_else(x1 < 2_Z * x0, square(x0) + square(x2), B_1(x0,x1,x2))
 	);
 }
  

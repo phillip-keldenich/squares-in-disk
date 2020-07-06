@@ -34,6 +34,9 @@ namespace B_functions {
 	using namespace ivarp::args;
 
 	static const auto B_3/*(a,h_i,w_i,h_{i+1})*/ = 
-		square(x1) + maximum(Y * x3, minimum(square(Y), 2_Z * square(x3)));
+		square(x1) + maximum(
+			maximum(0_Z, Y(x0,x1,x2,x3) * x3), 
+			minimum(square(maximum(0_Z,Y(x0,x1,x2,x3))), 2_Z * square(x3))
+		);
 }
 

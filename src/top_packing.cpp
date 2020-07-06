@@ -24,18 +24,17 @@
 // Created by Phillip Keldenich on 03.12.19.
 //
 
-#include "auxiliary_functions.hpp"
 #include "proof_auxiliaries.hpp"
 #include "top_packing.hpp"
 
 void run_top_packing() {
     const auto printer1 = ivarp::critical_printer(std::cerr, top_packing::proof1::system,
-                                                  printable_expression("D", top_packing::proof1::D));
+                                                  printable_expression("F_TP1", top_packing::proof1::F_TP1));
 
     run_proof("Top Packing Lemma, statement (1)", top_packing::proof1::input, top_packing::proof1::system, printer1);
 
     const auto printer2 = ivarp::critical_printer(std::cerr, top_packing::proof2::system,
-                                                  printable_expression("D", top_packing::proof2::D));
+                                                  printable_expression("F_TP2", top_packing::proof2::F_TP2));
     run_proof("Top Packing Lemma, statement (2)", top_packing::proof2::input, top_packing::proof2::system, printer2);
 }
 

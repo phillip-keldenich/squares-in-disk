@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 //
-// Created by Phillip Keldenich on 03.12.19.
+// Created by Phillip Keldenich on 02.07.2020.
 //
 
 #include "proof_auxiliaries.hpp"
@@ -40,7 +40,7 @@ namespace one_subcontainer_proof1 {
 
     static const auto z = T(-T_inv(s1) + h1);
     static const auto w1 = w(T_inv(s1),h1);
-	static const auto F_3 = 
+	static const auto F_OC = 
 		square(s1) + B_4(T_inv(s1), h1, w1, sn) + square(sn) + last_square(s1, sn);
 
 	static const auto not_case_2 =
@@ -50,7 +50,7 @@ namespace one_subcontainer_proof1 {
 
     const auto system = constraint_system(
 		variable(s1, "s_1", 0.295_X, 1.3_X), variable(h1, "h_1", 0_Z, s1), variable(sn, "s_n", z, h1),
-        F_3 <= 1.6_X, s1 >= h1, h1 >= sn, z >= 0_Z, h1 <= T_inv(s1) + 1_Z, not_case_2
+        F_OC <= 1.6_X, s1 >= h1, h1 >= sn, z >= 0_Z, h1 <= T_inv(s1) + 1_Z, not_case_2
 	);
     const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128, 8), 256, 256>>(system);
 }
@@ -63,7 +63,7 @@ static void run_one_subcontainer_proof1() {
 
     const auto printer = ivarp::critical_printer(std::cerr, one_subcontainer_proof1::system,
                                                  printable_expression("z", z),
-                                                 printable_expression("F_3", F_3),
+                                                 printable_expression("F_OC", F_OC),
                                                  printable_expression("sigma(s_1)", sigma(s1)),
 												 printable_expression("w_1", w1),
 												 printable_expression("B_4", B_4(T_inv(s1), h1, w1, sn)));

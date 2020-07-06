@@ -46,7 +46,7 @@ namespace aux_functions {
 
 	// this is a shorthand for {0 if s_n > sigma else 0.83sigma^2}
 	static const auto last_square/*(s1,sn)*/ = if_then_else(
-		sigma(x0) >= x1, 0.83_X * square(sigma(x0)), ensure_expr(0_Z)
+		sigma(x0) >= x1, 0.83_X * square(sigma(x0)), 0_Z
 	);
 }
 

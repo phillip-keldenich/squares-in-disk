@@ -30,11 +30,6 @@
 #include "B3.hpp"
 
 namespace B_functions {
-	using aux_functions::Y;
-
-	static const auto B_4/*(a,h_i,w_i,h_{i+1})*/ = if_then_else(x2 <= 2_Z * x1,
-		square(x1) + minimum(square(maximum(ensure_expr(0_Z), Y)), 2_Z * square(x3)),
-		maximum(B_2(x1,x2,x3), B_3)
-	);
+	static const auto B_4/*(a,h_i,w_i,h_{i+1})*/ = maximum(B_2(x1, x2, x3), B_3(x0,x1,x2,x3));
 }
 

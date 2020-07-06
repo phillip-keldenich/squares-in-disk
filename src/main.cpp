@@ -22,16 +22,21 @@
 
 extern void run_top_packing();
 extern void run_one_subcontainer();
-extern void run_lemma32();
-extern void run_lemma33();
-extern void run_lemma34();
-extern void run_lemma35();
+extern void run_two_subcontainers();
+extern void run_three_subcontainers();
+extern void run_four_subcontainers();
+extern void run_five_subcontainers();
+extern void run_six_subcontainers();
+extern void run_seven_subcontainers();
 
 int main() {
     run_top_packing();
     run_one_subcontainer();
-    run_lemma32();
-    run_lemma33();
-    run_lemma34();
-    run_lemma35();
+    run_two_subcontainers();
+	run_three_subcontainers();
+	run_four_subcontainers();
+	run_five_subcontainers();
+	run_six_subcontainers();
+	run_seven_subcontainers();
 }
+
