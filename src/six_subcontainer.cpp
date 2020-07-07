@@ -59,15 +59,6 @@ namespace six_subcontainers_proof1 {
 							   B_4(T_inv(s1)-h1-h2-h3-h4, h5, w5, h6) +
 							   B_4(T_inv(s1)-h1-h2-h3-h4-h5, h6, w6, sn);
 
-	static const auto F_6C_1i = square(s1) + square(sn) +
-				               B_4(T_inv(s1), h1, w1, h2) +
-							   B_4(T_inv(s1)-h1, h2, w2, h3) + 
-                               B_4(T_inv(s1)-h1-h2, h3, w3, h4);
-
-	static const auto F_6C_1ii = square(s1) + square(sn) +
-				               B_4(T_inv(s1), h1, w1, h2) +
-							   B_4(T_inv(s1)-h1, h2, w2, h3);
-
 	static const auto system = constraint_system(
 		variable(s1, "s_1", 0.295_X, sqrt(ensure_expr(1.6_X))),
 		variable(sn, "s_n", sigma(s1), s1),
@@ -78,7 +69,6 @@ namespace six_subcontainers_proof1 {
 		variable(h5, "h_5", sn, h4),
 		variable(h6, "h_6", sn, h5),
 		sn > z, z >= 0_Z, F_6C_1 <= 1.6_X,
-		F_6C_1i <= 1.6_X, F_6C_1ii <= 1.6_X,
 		h1 <= T_inv(s1) + 1_Z - 5_Z * sigma(s1),
 		h2 <= T_inv(s1) + 1_Z - h1 - 4_Z * sigma(s1),
 		h3 <= T_inv(s1) + 1_Z - h1 - h2 - 3_Z * sigma(s1),

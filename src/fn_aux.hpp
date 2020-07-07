@@ -41,8 +41,10 @@ namespace aux_functions {
 	static const auto w/*(y_t,h)*/ =
 		2_Z * sqrt(maximum(0_Z, minimum(1_Z - square(x0), 1_Z - square(x0-x1))));
 
-	static const auto sigma/*(s_1)*/ = 
-		0.25_X * (-x0 - 2_Z*T_inv(x0) + sqrt(8_Z - square(x0 - 2_Z*T_inv(x0))));
+	static const auto sigma/*(s_1)*/ = if_then_else(x0 <= sqrt((2_Z + sqrt(ensure_expr(2_Z))) / 3_Z),
+		0.25_X * (-x0 - 2_Z*T_inv(x0) + sqrt(8_Z - square(x0 - 2_Z*T_inv(x0)))),
+		0.2_X * (sqrt(20_Z - square(x0)) - 2_Z * x0)
+	);
 
 	// this is a shorthand for {0 if s_n > sigma else 0.83sigma^2}
 	static const auto last_square/*(s1,sn)*/ = if_then_else(

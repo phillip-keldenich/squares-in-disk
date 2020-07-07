@@ -53,7 +53,6 @@ namespace seven_subcontainers_proof1 {
 	static const auto w6 = w(T_inv(s1) - h1 - h2 - h3 - h4 - h5, h6);
 	static const auto w7 = w(T_inv(s1) - h1 - h2 - h3 - h4 - h5 - h6, h7);
 
-
 	static const auto F_7C_1 = square(s1) + square(sn) +
 				               B_4(T_inv(s1), h1, w1, h2) +
 							   B_4(T_inv(s1)-h1, h2, w2, h3) + 
