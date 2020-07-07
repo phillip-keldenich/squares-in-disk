@@ -58,6 +58,7 @@ namespace four_subcontainers_proof1 {
 		variable(h4, "h_4", 0_Z, h3),
 		variable(sn, "s_n", z, h4),
 		z >= 0_Z,
+		z <= sn,
 		h1 <= T_inv(s1) + 1_Z,
 		h2 <= T_inv(s1) + 1_Z - h1,
 		h3 <= T_inv(s1) + 1_Z - h1 - h2,

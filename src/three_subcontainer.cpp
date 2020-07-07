@@ -53,6 +53,7 @@ namespace three_subcontainers_proof1 {
 		variable(h2, "h_2", 0_Z, h1),
 		variable(h3, "h_3", 0_Z, h2),
 		variable(sn, "s_n", z, h3),
+		z <= sn,
 		z >= 0_Z,
 		h1 <= s1, h2 <= h1,
 		sn <= h2, h1 <= T_inv(s1) + 1_Z,
