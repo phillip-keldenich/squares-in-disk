@@ -28,6 +28,7 @@
 #include "ivarp/math.hpp"
 #include "interval_sqrt.hpp"
 #include "interval_asin.hpp"
+#include "interval_acos.hpp"
 
 namespace ivarp {
 namespace impl {
@@ -202,11 +203,38 @@ namespace impl {
         };
     };
 
+	/// Tag for arc cosine.
+	struct MathAcosTag : IrrationalTag {
+		static const char* name() noexcept {
+			return "acos";
+		}
+
+		IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
+			IVARP_TEMPLATE_PARAMS(typename Context, typename NumberType), NumberType,
+				static inline NumberType eval(const NumberType& n)
+			{
+				return ::ivarp::impl::interval_acos<Context, fixed_point_bounds::Unbounded>(n);
+			}
+		);
+
+		struct BoundedEval {
+			/// Interval arc cosine becomes cheaper if we know the operand is between -1 and 1.
+			IVARP_HD_OVERLOAD_TEMPLATE_ON_CUDA_NT(
+                IVARP_TEMPLATE_PARAMS(typename Context, typename Bounds, typename NumberType), NumberType,
+                    static inline NumberType eval(const NumberType& n)
+                {
+                    return ::ivarp::impl::interval_acos<Context, Bounds>(n);
+                }
+            )
+		};
+	};
+
     template<typename A> using MathSin = MathUnary<MathSinTag, A>;
     template<typename A> using MathCos = MathUnary<MathCosTag, A>;
     template<typename A> using MathSqrt = MathUnary<MathSqrtTag, A>;
     template<typename A> using MathExp = MathUnary<MathExpTag, A>;
     template<typename A> using MathAsin = MathUnary<MathAsinTag, A>;
+	template<typename A> using MathAcos = MathUnary<MathAcosTag, A>;
 
     template<typename A1> static constexpr inline
         std::enable_if_t<IsMathExpr<A1>::value, MathSin<BareType<A1>>>
@@ -220,6 +248,13 @@ namespace impl {
             asin(A1&& arg)
     {
         return MathAsin<BareType<A1>>(std::forward<A1>(arg));
+    }
+
+    template<typename A1> static constexpr inline
+        std::enable_if_t<IsMathExpr<A1>::value, MathAcos<BareType<A1>>>
+            acos(A1&& arg)
+    {
+        return MathAcos<BareType<A1>>(std::forward<A1>(arg));
     }
 
     template<typename A1> static constexpr inline

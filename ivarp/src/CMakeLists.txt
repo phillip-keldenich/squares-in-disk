@@ -27,7 +27,7 @@ set(IVARP_LIB_SOURCES_NAMES
 		powint.cpp irr_constants.cpp
 		rational_invert.cpp rational_modf.cpp
 		irational_mul.cpp irational_div.cpp
-		interval_asin.cpp
+		interval_asin.cpp interval_acos.cpp
 		mpfr_helpers.hpp
 		interval_sin.cpp sincos_period_info.hpp
 		interval_cos.cpp irational_sqrt.cpp

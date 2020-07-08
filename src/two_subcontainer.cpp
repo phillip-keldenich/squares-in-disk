@@ -51,7 +51,7 @@ namespace two_subcontainers_proof1 {
 		variable(s1, "s_1", 0.295_X, sqrt(ensure_expr(1.6_X))),
 		variable(h1, "h_1", 0_Z, s1),
 		variable(h2, "h_2", 0_Z, h1),
-		variable(sn, "s_n", z, h2),
+		variable(sn, "s_n", maximum(0_Z, z), h2),
 		z >= 0_Z,
 		F_2C_1 <= 1.6_X,
 		h1 <= s1, h2 <= h1,

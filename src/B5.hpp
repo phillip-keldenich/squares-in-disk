@@ -20,25 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-extern void run_top_packing();
-extern void run_one_subcontainer();
-extern void run_two_subcontainers();
-extern void run_three_subcontainers();
-extern void run_four_subcontainers();
-extern void run_five_subcontainers();
-extern void run_six_subcontainers();
-extern void run_seven_subcontainers();
-extern void run_more_subcontainers();
+//
+// Created by Phillip Keldenich on 07.07.2020.
+//
 
-int main() {
-    run_top_packing();
-    run_one_subcontainer();
-    run_two_subcontainers();
-	run_three_subcontainers();
-	run_four_subcontainers();
-	run_five_subcontainers();
-	run_six_subcontainers();
-	run_seven_subcontainers();
-	run_more_subcontainers();
+#pragma once
+
+#include "fn_aux.hpp"
+
+namespace B_functions {
+	static const auto d/*(h_j,H_j)*/ = minimum(1_Z, maximum(0_Z, 1_Z - x1 + x0));
+	static const auto A_jp1/*(h_j,H_j)*/ = acos(d) - d * sqrt(1_Z - square(d));
+	static const auto B_5/*(h_j,H_j)*/ = A_jp1 + 2_Z * square(x0) - x1 * x0;
 }
 

@@ -39,13 +39,6 @@ namespace ivarp {
         return NumberToConstant<NumberType>{ivarp::forward<NumberType>(n)};
     }
 
-    /// Explicitly use an integer literal as constant - for historical purposes only, use _Z instead.
-    template<char... Digits> [[deprecated("Use _Z instead!")]] static inline auto operator""_c() {
-        using LitResultType = decltype(literal_impl::IntLiteral<Digits...>::value());
-        using ConstantType = NumberToConstant<LitResultType>;
-        return ConstantType{literal_impl::IntLiteral<Digits...>::value()};
-    }
-
     /// Macro to turn a constexpr integer into a compile-time bounded constant.
 #define IVARP_CEXPR_CONSTANT(x) (impl::to_constexpr_constant<BareType<decltype(x)>, (x)>())
 
