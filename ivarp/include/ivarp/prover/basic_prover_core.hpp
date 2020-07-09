@@ -32,7 +32,7 @@ namespace ivarp {
         using Context = typename ProverInputType::Context;
         using RBT = typename ProverInputType::RuntimeBoundTable;
         using RCT = typename ProverInputType::RuntimeConstraintTable;
-        using DBA = DynamicBoundApplication<RBT, Context>;
+        using DBA = impl::DynamicBoundApplication<RBT, Context>;
 
     public:
         virtual void set_settings(const ProverSettings* settings) {

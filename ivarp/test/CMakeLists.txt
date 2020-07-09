@@ -12,7 +12,7 @@ target_link_libraries(ivarp_unit_tests PRIVATE ivarp doctest util::enable_warnin
 if(CMAKE_CUDA_COMPILER)
 	target_sources(ivarp_unit_tests PRIVATE cuda/intervals.cu cuda/device_tuple.cu
 			                                cuda/exact_less_than.cu cuda/critical_reducer.cu
-			                                cuda/fn_eval.cu cuda/expected_criticals.cu
+			                                cuda/fn_eval.cu cuda/expected_criticals.cu cuda/expected_criticals2.cu
 				                            cuda/positive_and_negative_proof1.cu
 											cuda/positive_and_negative_proof2.cu
 											cuda/math.cu cuda/grid_dimensions.cu

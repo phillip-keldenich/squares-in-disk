@@ -103,7 +103,7 @@ namespace cuda {
         );
     }
 
-    template<typename BoundEv, typename Context, typename RBT> static inline IVARP_D
+    template<typename BoundEv, typename Context, typename RBT, std::enable_if_t<(RBT::num_bounds > 0),int> = 0> static inline IVARP_D
     PropagationResult propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to, std::size_t it_limit)
     {
         using Update = typename RBT::template UpdateBounds<BoundEv>;
@@ -125,6 +125,12 @@ namespace cuda {
             stable = true;
             ivarp::ivswap(t1, t2);
         }
+        return PropagationResult{false};
+    }
+
+    template<typename BoundEv, typename Context, typename RBT, std::enable_if_t<(RBT::num_bounds == 0),int> = 0> static inline IVARP_D
+    PropagationResult propagate(const RBT& /*runtime_bounds*/, typename Context::NumberType* /*apply_to*/, std::size_t /*it_limit*/)
+    {
         return PropagationResult{false};
     }
 

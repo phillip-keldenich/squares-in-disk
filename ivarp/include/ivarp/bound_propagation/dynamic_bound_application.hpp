@@ -27,10 +27,10 @@
 #pragma once
 
 namespace ivarp {
-namespace propagate_iterated_recursive {
 namespace impl {
+namespace propagate_iterated_recursive {
+
     template<std::size_t NumBounds> struct IteratedRecursivePropInfo;
-}
 }
 
     struct DynamicBoundEvent {
@@ -43,7 +43,7 @@ namespace impl {
     {
         using NumberType = typename Context::NumberType;
         static constexpr std::size_t num_bounds = RuntimeBoundTable::num_bounds;
-        using RecPropInfo = propagate_iterated_recursive::impl::IteratedRecursivePropInfo<num_bounds>;
+        using RecPropInfo = propagate_iterated_recursive::IteratedRecursivePropInfo<num_bounds>;
         using Queue = IndexQueueSet<num_bounds>;
 
         class BoundApplierBase {
@@ -152,4 +152,5 @@ namespace impl {
         const RuntimeBoundTable* runtime_bounds;
         ApplierPtr appliers[num_bounds];
     };
+}
 }

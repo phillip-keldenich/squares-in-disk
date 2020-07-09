@@ -35,8 +35,8 @@
  */
 
 namespace ivarp {
-namespace propagate_iterated_recursive {
 namespace impl {
+namespace propagate_iterated_recursive {
     template<std::size_t NumBounds> struct IteratedRecursivePropInfo {
         static constexpr std::size_t num_bounds = NumBounds;
 
@@ -101,7 +101,7 @@ namespace impl {
         static inline PropagationResult do_propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to,
                                                      const DynamicBoundApplication<RBT, Context>& dba, std::size_t it_limit, std::uint8_t rec_limit)
     {
-        impl::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
+        Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
         return propagator.run(apply_to, it_limit, rec_limit);
     }
 
@@ -109,7 +109,7 @@ namespace impl {
         static inline PropagationResult do_propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to,
                                                      const DynamicBoundApplication<RBT, Context>& dba, std::size_t it_limit, std::uint8_t rec_limit)
     {
-        impl::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
+        Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
         return propagator.run(apply_to, it_limit, rec_limit);
     }
 
@@ -119,7 +119,6 @@ namespace impl {
     {
         return PropagationResult{false};
     }
-}
 
     template<typename BoundEv, typename Context, typename RBT>
         static inline PropagationResult propagate(const RBT& runtime_bounds, typename Context::NumberType* apply_to,
@@ -127,8 +126,9 @@ namespace impl {
                                                   std::size_t it_limit, std::uint8_t rec_limit)
     {
         using Update = typename RBT::template UpdateBounds<BoundEv>;
-        impl::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
+        propagate_iterated_recursive::Propagator<Context, RBT> propagator{Update{}, runtime_bounds, dba};
         return propagator.run(apply_to, it_limit, rec_limit);
     }
+}
 }
 }
