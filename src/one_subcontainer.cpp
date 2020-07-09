@@ -49,7 +49,7 @@ namespace one_subcontainer_proof1 {
 		square(s1) + square(h1) + 2_Z * square(sn) <= 1.56_X;
 
     const auto system = constraint_system(
-		variable(s1, "s_1", 0.295_X, 1.3_X), variable(h1, "h_1", 0_Z, s1), variable(sn, "s_n", maximum(0_Z, z), h1),
+		variable(s1, "s_1", 0.295_X, sqrt(ensure_expr(1.6_X))), variable(h1, "h_1", 0_Z, s1), variable(sn, "s_n", maximum(0_Z, z), h1),
         F_OC <= 1.6_X, s1 >= h1, h1 >= sn, z >= 0_Z, h1 <= T_inv(s1) + 1_Z, not_case_2
 	);
     const auto input = prover_input<CTX, U64Pack<dynamic_subdivision(128, 8), 256, 256>>(system);
