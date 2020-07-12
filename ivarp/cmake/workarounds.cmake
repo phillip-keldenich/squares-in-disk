@@ -22,7 +22,7 @@
 if(MSVC)
 	# MSVC's _idiotic_ policy of not having an inline assembler on x64,
 	# combined with the inability to not constant-fold overagressively
-	# and break our code w.r.t. rounding even though the correct flags are used,
+	# and break our code w.r.t. rounding even though the corresponding flags are used,
 	# forces us to use an actual assembler.
 	enable_language(ASM_MASM)
 endif()
@@ -32,3 +32,4 @@ add_library(__ivarp_workarounds INTERFACE)
 if(MSVC)
 	target_sources(__ivarp_workarounds INTERFACE "${CMAKE_CURRENT_LIST_DIR}/../src/msvc_sqrt_workaround.asm")
 endif()
+

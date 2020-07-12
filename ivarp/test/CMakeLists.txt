@@ -5,7 +5,8 @@ add_executable(ivarp_unit_tests interval.cpp unit_tests.cpp metaprogramming.cpp 
 		symbolic_call.cpp  if_then_else.cpp custom_function.cpp constant_folding_custom_function.cpp tuple.cpp
 		fn_eval.cpp tag_of.cpp compile_time_bounds.cpp initial_compile_time_bounds.cpp bound_and_simplify.cpp
 		rewrite_to_bounds.cpp bound_dependency_analysis.cpp constraint_system.cpp prover_input.cpp run_prover.cpp
-		function_printer.cpp issues/issue8.cpp factorize.cpp expected_criticals.cpp expected_criticals2.cpp math.cpp)
+		function_printer.cpp issues/issue8.cpp issues/issue10.cpp
+		factorize.cpp expected_criticals.cpp expected_criticals2.cpp math.cpp)
 
 target_link_libraries(ivarp_unit_tests PRIVATE ivarp doctest util::enable_warnings util::debug_use_asan)
 
@@ -16,7 +17,7 @@ if(CMAKE_CUDA_COMPILER)
 				                            cuda/positive_and_negative_proof1.cu
 											cuda/positive_and_negative_proof2.cu
 											cuda/math.cu cuda/grid_dimensions.cu
-											issues/issue9.cu)
+											issues/issue9.cu issues/issue10.cu)
 endif()
 
 target_enable_lto(ivarp_unit_tests)

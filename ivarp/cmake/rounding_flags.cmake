@@ -59,3 +59,4 @@ if(NOT TARGET util::use_sse)
 
 	util_make_flags_cuda_compatible(__util_use_sse)
 endif()
+
