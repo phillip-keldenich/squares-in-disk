@@ -31,6 +31,6 @@
 namespace B_functions {
 	static const auto d/*(h_j,H_j)*/ = minimum(1_Z, maximum(0_Z, 1_Z - x1 + x0));
 	static const auto A_jp1/*(h_j,H_j)*/ = acos(d) - d * sqrt(1_Z - square(d));
-	static const auto B_5/*(h_j,H_j)*/ = A_jp1 + 2_Z * square(x0) - x1 * x0;
+	static const auto B_5/*(h_j,H_j)*/ = A_jp1 + square(x0) - x1 * x0;
 }
 
