@@ -33,6 +33,7 @@ namespace top_packing {
     using namespace ivarp;
 	using aux_functions::T_inv;
 	using aux_functions::sigma;
+	using aux_functions::s1_star;
 	using CTX = DefaultContextWithNumberType<IDouble>;
 
     const auto s1 = args::x0;
@@ -43,7 +44,7 @@ namespace top_packing {
 
     namespace proof1 {
 		const auto xp1 = 0.5_X * s1 + sigma_2sq2;
-		const auto yp1 = T_inv(s1) + sigma(s1) + sigma_2sq2;
+		const auto yp1 = if_then_else(s1 <= s1_star, T_inv(s1) + sigma(s1) + sigma_2sq2, 0.5_X * sigma + sigma_2sq2);
 		const auto F_TP1 = square(xp1) + square(yp1);
 
         const auto system = constraint_system(s1d, s1 >= l1, F_TP1 > 1_Z);
@@ -52,7 +53,7 @@ namespace top_packing {
 
     namespace proof2 {
 		const auto xp2 = 0.5_X * s1 + 0.645_X * sigma(s1);
-		const auto yp2 = T_inv(s1) + 2_Z * 0.645_X * sigma(s1);
+		const auto yp2 = if_then_else(s1 <= s1_star, T_inv(s1) + 2_Z * 0.645_X * sigma(s1), 0.79_X * sigma(s1));
         const auto F_TP2 = square(xp2) + square(yp2);
 
         const auto system = constraint_system(s1d, s1 >= l1, F_TP2 > 1_Z);
