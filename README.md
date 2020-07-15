@@ -3,19 +3,14 @@ This repository contains the code for the automatic proofs of our paper
 
 > Packing Squares into a Disk with Optimal Worst-Case Density
 
-submitted to SoCG 2020.
+submitted to SODA 2021.
 
 ## Getting and Building the Code
 The code makes use of our interval arithmetic prover framework at 
 
 > https://gitlab.ibr.cs.tu-bs.de/alg/ivarp.git
 
-that is included in this repository as a git submodule.
-Therefore, when cloning, use 
-
-    git clone --recursive https://gitlab.ibr.cs.tu-bs.de/alg/square-in-circle-proofs.git
-
-to automatically clone this dependency as well.
+that is included as a copy in this repository.
 
 ## Further Dependencies
 The code depends on the GNU Multiple Precision Arithmetic Library (GMP, see https://gmplib.org/) and the 
@@ -40,51 +35,39 @@ On a Unix-like system, building typically consists of the following sequence of 
     cmake -DCMAKE_BUILD_TYPE=Release ..
     make
 
-Compilation may take some time.
+Compilation may take quite some time.
 These commands should generate an executable running the proof at `${PROJECT_ROOT}/cmake-build-release/src/squares_in_disk_prover`.
 
 ## Running the Code
-The executable `squares_in_disk_prover` can be run without an argument.
+The executable `squares_in_disk_prover` can be run without command line arguments.
 
 ### Example Output
 The output of the program contains informs about the progress of the prover and the number of individual hypercuboids considered.
 
-    --> time ./squares_in_disk_prover 
-    Starting proof Lemma 30, statement (1)...
-    Done: 256 cuboids considered.
-    Starting proof Lemma 30, statement (2)...
-    Done: 309 cuboids considered.
-    Starting proof Lemma 31, statement (1)...
-    Done: 1933541 cuboids considered.
-    Starting proof Lemma 31, statement (2)...
-    Done: 12829 cuboids considered.
-    Starting proof Lemma 31, statement (3)...
-    Done: 72974 cuboids considered.
-    Starting proof Lemma 31, statement (4)...
-    Done: 32736 cuboids considered.
-    Starting proof Lemma 31, statement (5)...
-    Done: 5590 cuboids considered.
-    Starting proof Lemma 32, statement (1)...
-    Done: 116367 cuboids considered.
-    Starting proof Lemma 32, statement (2)...
-    Done: 116523 cuboids considered.
-    Starting proof Lemma 33, statement (1)...
-    Done: 1713675 cuboids considered.
-    Starting proof Lemma 33, statement (2)...
-    Done: 678625 cuboids considered.
-    Starting proof Lemma 34, statement (1)...
-    Done: 16781312 cuboids considered.
-    Starting proof Lemma 34, statement (2)...
-    Done: 635262259 cuboids considered.
-    Starting proof Lemma 34, statement (3)...
-    Done: 8460712 cuboids considered.
-    Starting proof Lemma 35, N = 5...
-    Done: 1104 cuboids considered.
-    Starting proof Lemma 35, N = 6...
-    Done: 1024 cuboids considered.
-    Starting proof Lemma 35, N = 7...
-    Done: 1024 cuboids considered.
-    ./squares_in_disk_prover  10877,83s user 7,04s system 778% cpu 23:18,96 total
+    `--> time ./src/squares_in_disk_prover
+    Starting proof Top Packing Lemma, statement (1)...
+    Done: 128 cuboids considered (128 leafs).
+    Starting proof Top Packing Lemma, statement (2)...
+    Done: 168 cuboids considered (168 leafs).
+    Starting proof One Subcontainer Lemma...
+    Done: 2869888 cuboids considered (2858678 leafs).
+    Starting proof Two Subcontainer Lemma...
+    Done: 7181696 cuboids considered (7069587 leafs).
+    Starting proof Three Subcontainer Lemma...
+    Done: 3549856 cuboids considered (3440786 leafs).
+    Starting proof Four Subcontainer Lemma...
+    Done: 37245328 cuboids considered (35026303 leafs).                                                                                                                                      
+    Starting proof Five Subcontainers, s_n > sigma...
+    Done: 3392 cuboids considered (3188 leafs).
+    Starting proof Six Subcontainers, s_n > sigma...
+    Done: 14848 cuboids considered (13928 leafs).
+    Starting proof Seven Subcontainers, s_n > sigma...
+    Done: 1808 cuboids considered (1703 leafs).
+    Starting proof >= 5 Subcontainers, s_n <= sigma, y_3 <= 0...
+    Done: 1056154896 cuboids considered (1022752013 leafs).                                                                                                                                      
+    Starting proof >= 5 Subcontainers, s_n <= sigma, y_3 > 0...
+    Done: 123127968 cuboids considered (115680431 leafs).                                                                                                                                    
+    ./src/squares_in_disk_prover  27306,87s user 36,52s system 757% cpu 1:00:08,12 total
 
 ## License
 The code is open source under MIT license.
