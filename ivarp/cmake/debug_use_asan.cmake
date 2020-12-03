@@ -27,7 +27,7 @@ if(NOT TARGET util::debug_use_asan)
 	if((${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.13.0") AND ("${CMAKE_CXX_COMPILER_ID}" MATCHES "[Gg][Nn][Uu]" OR
 	   "${CMAKE_CXX_COMPILER_ID}" MATCHES "[Cc][Ll][Aa][Nn][Gg]"))
 
-		target_compile_options(__util_debug_use_asan INTERFACE "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:$<$<CONFIG:Debug>:-fsanitize=address>>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:$<$<CONFIG:Debug>:-Xcompiler=-fsanitize=address>>")
-        target_link_options(__util_debug_use_asan INTERFACE "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:$<$<CONFIG:Debug>:-fsanitize=address>>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:$<$<CONFIG:Debug>:-Xlinker=-fsanitize=address>>")
+		target_compile_options(__util_debug_use_asan INTERFACE "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:$<$<CONFIG:Debug>:-fsanitize=address;-fsanitize=undefined>>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:$<$<CONFIG:Debug>:-Xcompiler=-fsanitize=address;-Xcompiler=-fsanitize=undefined>>")
+        target_link_options(__util_debug_use_asan INTERFACE "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:$<$<CONFIG:Debug>:-fsanitize=address;-fsanitize=undefined>>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:$<$<CONFIG:Debug>:-Xlinker=-fsanitize=address;-Xlinker=-fsanitize=undefined>>")
 	endif()
 endif()

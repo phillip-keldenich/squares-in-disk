@@ -184,7 +184,7 @@ namespace ivarp {
 }
 
 void ivarp::do_opacify(float &f) noexcept {
-#if BOOST_COMP_GNUC
+#if BOOST_COMP_GNUC && !defined(IVARP_FORCE_OPACIFY)
     (void)f;
 #elif BOOST_COMP_CLANG
     asm volatile("" : "+mx"(f));
@@ -195,7 +195,7 @@ void ivarp::do_opacify(float &f) noexcept {
 }
 
 void ivarp::do_opacify(double &d) noexcept {
-#if BOOST_COMP_GNUC
+#if BOOST_COMP_GNUC && !defined(IVARP_FORCE_OPACIFY)
     (void)d;
 #elif BOOST_COMP_CLANG
     asm volatile("" : "+mx"(d));

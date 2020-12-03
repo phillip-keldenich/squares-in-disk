@@ -24,13 +24,13 @@ add_executable(squares_in_disk_prover
 	main.cpp top_packing.cpp one_subcontainer.cpp two_subcontainer.cpp three_subcontainer.cpp
 	four_subcontainer.cpp five_subcontainer.cpp six_subcontainer.cpp seven_subcontainer.cpp
 	more_subcontainers.cpp)
-target_link_libraries(squares_in_disk_prover PRIVATE ivarp)
+target_link_libraries(squares_in_disk_prover PRIVATE ivarp util::debug_use_asan)
 
 if(CMAKE_CUDA_COMPILER AND NOT IVARP_NO_CUDA)
 	add_executable(squares_in_disk_prover_cuda EXCLUDE_FROM_ALL
 		main.cpp top_packing.cu one_subcontainer.cu two_subcontainer.cu 
 		three_subcontainer.cu four_subcontainer.cu five_subcontainer.cu
 		six_subcontainer.cu seven_subcontainer.cu more_subcontainers.cu)
-	target_link_libraries(squares_in_disk_prover_cuda PRIVATE ivarp)
+	target_link_libraries(squares_in_disk_prover_cuda PRIVATE ivarp util::debug_use_asan)
 endif()
 

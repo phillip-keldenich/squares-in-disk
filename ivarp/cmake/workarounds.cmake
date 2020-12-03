@@ -28,6 +28,7 @@ if(MSVC)
 endif()
 
 add_library(__ivarp_workarounds INTERFACE)
+add_library(__ivarp_public_workarounds INTERFACE)
 
 if(MSVC)
 	target_sources(__ivarp_workarounds INTERFACE "${CMAKE_CURRENT_LIST_DIR}/../src/msvc_sqrt_workaround.asm")

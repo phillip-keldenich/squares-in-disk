@@ -11,12 +11,6 @@ if(IVARP_BUILDING_IVARP)
 	option(IVARP_ENABLE_COVERAGE "Compile and link with coverage information generation for debugging/testing." Off)
 endif()
 
-if("${CMAKE_CXX_COMPILER_ID}" MATCHES "[Gg][Nn][Uu]")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 10.0)
-		string(REPLACE "-O3" "-O2" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-	endif()
-endif()
-
 # include cmake utilities; cuda_support must be first for make_flags_cuda_compatible.
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/cuda_support.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/workarounds.cmake")
@@ -47,6 +41,7 @@ target_link_libraries(ivarp
 		PUBLIC util::enable_rounding util::use_sse
 		       Boost::boost ivarp::GMPXX ivarp::MPFR Threads::Threads
 		       ivarp::cuda_support
+			   __ivarp_public_workarounds
 		PRIVATE util::enable_warnings util::debug_use_asan  __ivarp_sources __ivarp_headers __ivarp_workarounds
 )
 target_enable_lto(ivarp)

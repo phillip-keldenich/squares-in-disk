@@ -27,6 +27,7 @@
 #pragma once
 #include <iostream>
 #include <sstream>
+#include <chrono>
 #include <ivarp/run_prover.hpp>
 #include <ivarp/critical_printer.hpp>
 #include <ivarp/progress_printer.hpp>
@@ -44,11 +45,14 @@ template<typename ProverInputType, typename ConstraintSystemType, typename Handl
     ivarp::ProofInformation info;
     ivarp::ProgressPrinter printer(std::cout, 3, &c);
     ivarp::ProverSettings settings;
-	settings.max_iterations_per_node = 1;
+    settings.max_iterations_per_node = 1;
+    auto time_before = std::chrono::steady_clock::now();
     if(!run_prover(p, h, &info, settings, printer)) {
         throw ProofError(name);
     }
     std::cout << "Done: " << info.num_cuboids << " cuboids considered (" << info.num_leaf_cuboids << " leafs)."
               << std::endl;
+    auto time_after = std::chrono::steady_clock::now();
+    std::cout << "Proof took " << std::chrono::duration_cast<std::chrono::duration<double>>(time_after-time_before).count() << " s" << std::endl;
 }
 
